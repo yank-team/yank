@@ -1,9 +1,8 @@
--> ![](https://github.com/yank-team/yank/raw/master/res/drawable-xxhdpi/yank.png =250x) <-
+<img align="right" width="260" src="https://raw.githubusercontent.com/yank-team/yank/master/res/drawable-xxhdpi/yank.png">
 
-->Yank<-
+Yank
 ========
-
-->*A Location-Based Community Scrapbook*<-
+*A Location-Based Community Scrapbook*
 
 # Setting Up for Development
 
