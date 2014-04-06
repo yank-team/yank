@@ -1,7 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-
     <!-- Bootstrap colors -->
+    <item name="btn_default_bg" type="color">#ebebeb</item>
+    <item name="btn_default_stroke" type="color">#adadad</item>
     <item name="btn_primary_bg" type="color">#3276b1</item>
     <item name="btn_primary_stroke" type="color">#285e8e</item>
+    <item name="btn_success_bg" type="color">#47a447</item>
+    <item name="btn_success_stroke" type="color">#398439</item>
+    <item name="btn_danger_bg" type="color">#d2322d</item>
+    <item name="btn_danger_stroke" type="color">#ac2925</item>
+
+    <!-- Other colors -->
 </resources>
