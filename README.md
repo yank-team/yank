@@ -13,3 +13,10 @@ suggested that you set up a blank project, and establish a git repository inside
 This allows the project to exist in a variety of IDEs. You can use something like Eclipse if you
 prefer a more "stable" environment, but the yank team has found that Android Studio is quite stable
 already.
+
+## Credit Were it's Due
+
+### Backgrounds
+
+*Subtle Patterns*, http://subtlepatterns.com/
+*Klinic Slab Font*, http://www.losttype.com/

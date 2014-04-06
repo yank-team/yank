@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <!-- Bootstrap colors -->
+    <item name="btn_primary_bg" type="color">#3276b1</item>
+    <item name="btn_primary_stroke" type="color">#285e8e</item>
+</resources>
