@@ -1,4 +1,4 @@
-<img align="right" width="260" src="https://raw.githubusercontent.com/yank-team/yank/master/res/drawable-xxhdpi/yank.png">
+<img align="right" width="260" src="https://raw.githubusercontent.com/yank-team/yank/master/app/src/res/drawable-xxhdpi/yank.png">
 
 Yank
 ========
