@@ -56,11 +56,12 @@ public class LobbyActivity extends ActionBarActivity implements ActionBar.TabLis
 
         List<Fragment> fragments = new Vector<Fragment>();
         fragments.add(Fragment.instantiate(this, MapFragment.class.getName()));
-        fragments.add(Fragment.instantiate(this, ListFragment.class.getName()));
         fragments.add(Fragment.instantiate(this, SavedFragment.class.getName()));
+        fragments.add(Fragment.instantiate(this, ListFragment.class.getName()));
         mSectionsPagerAdapter = new SectionsPagerAdapter(getSupportFragmentManager(), fragments);
         mViewPager = (ViewPager) findViewById(R.id.lobby_pager);
         mViewPager.setAdapter(mSectionsPagerAdapter);
+        mViewPager.setOffscreenPageLimit(4);
 
     }
 
