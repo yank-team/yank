@@ -1,6 +1,7 @@
 package com.yankteam.yank.app;
 
 
+import android.app.Activity;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -12,6 +13,10 @@ import android.support.v7.app.ActionBarActivity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
+
+import com.yankteam.yank.app.Components.LobbyPagerAdapter;
+
 import java.util.Locale;
 import java.util.List;
 import java.util.Vector;
