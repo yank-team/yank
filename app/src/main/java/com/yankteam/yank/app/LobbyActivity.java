@@ -36,6 +36,7 @@ public class LobbyActivity extends ActionBarActivity implements ActionBar.TabLis
             }
         });
 
+        // append the tabs to the action bar
         for(int i=0; i<mSectionsPagerAdapter.getCount(); i++){
             actionBar.addTab(
                     actionBar.newTab()
@@ -104,5 +105,12 @@ public class LobbyActivity extends ActionBarActivity implements ActionBar.TabLis
             }
             return null;
         }
+    }
+
+    // Intercept the back button so we don't go back to the login screen unless the
+    // user logs out on purpose
+    @Override
+    public void onBackPressed(){
+        // nothing yet...
     }
 }
