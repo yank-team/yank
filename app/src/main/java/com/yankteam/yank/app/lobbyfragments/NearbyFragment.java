@@ -8,10 +8,11 @@ import android.os.Bundle;
 
 import com.yankteam.yank.app.R;
 
-/**
- * Created by root on 5/12/14.
+/*
+ * NearbyFragment
+ * auto-searches yanks in the immediate vicinity -- displays them on a list.
  */
-public class ListFragment extends Fragment {
+public class NearbyFragment extends Fragment {
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle saveInstanceState) {

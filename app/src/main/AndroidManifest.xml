@@ -53,8 +53,9 @@
 
         <activity
             android:name="com.yankteam.yank.app.LobbyActivity"
-            android:label="yanklobby"
+            android:label="lobby"
             android:screenOrientation="portrait"
+            android:uiOptions="splitActionBarWhenNarrow"
             >
         </activity>
     </application>

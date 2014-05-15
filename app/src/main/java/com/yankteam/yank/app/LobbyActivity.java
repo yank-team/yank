@@ -7,9 +7,11 @@ import android.support.v4.app.FragmentTransaction;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarActivity;
+import android.view.Menu;
+import android.view.MenuInflater;
 
-import com.yankteam.yank.app.lobbyfragments.ListFragment;
 import com.yankteam.yank.app.lobbyfragments.MapFragment;
+import com.yankteam.yank.app.lobbyfragments.NearbyFragment;
 import com.yankteam.yank.app.lobbyfragments.SavedFragment;
 
 import java.util.List;
@@ -30,6 +32,8 @@ public class LobbyActivity extends ActionBarActivity implements ActionBar.TabLis
         // set up the action bar
         final ActionBar actionBar = getSupportActionBar();
         actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_TABS);
+        actionBar.setDisplayShowTitleEnabled(false);
+        actionBar.setDisplayShowHomeEnabled(false);
 
         // set up the view pager
         initializePager();
@@ -40,24 +44,42 @@ public class LobbyActivity extends ActionBarActivity implements ActionBar.TabLis
             }
         });
 
-        // append the tabs to the action bar
+        // Set up tabs
+        ActionBar.Tab[] lobbyTabs = {
+                actionBar.newTab()
+                        .setIcon(R.drawable.ic_action_map)
+                        .setTabListener(this),
+                actionBar.newTab()
+                        .setIcon(R.drawable.ic_action_place)
+                        .setTabListener(this),
+                actionBar.newTab()
+                        .setIcon(R.drawable.ic_action_save)
+                        .setTabListener(this)
+        };
+
+        // append the tabs to their adapter
         for(int i=0; i<mSectionsPagerAdapter.getCount(); i++){
-            actionBar.addTab(
-                    actionBar.newTab()
-                        .setText(mSectionsPagerAdapter.getPageTitle(i))
-                        .setTabListener(this));
+            actionBar.addTab(lobbyTabs[i]);
         }
 
         // establish the fragment manager
         fragmentManager = getSupportFragmentManager();
     }
 
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        // Inflate the menu; this adds items to the action bar if it is present.
+        getMenuInflater().inflate(R.menu.lobby, menu);
+        return true;
+    }
+
     private void initializePager() {
         // create a list to hold fragments
         List<Fragment> fragments = new Vector<Fragment>();
         fragments.add(Fragment.instantiate(this, MapFragment.class.getName()));
+        fragments.add(Fragment.instantiate(this, NearbyFragment.class.getName()));
         fragments.add(Fragment.instantiate(this, SavedFragment.class.getName()));
-        fragments.add(Fragment.instantiate(this, ListFragment.class.getName()));
+
 
         mSectionsPagerAdapter = new SectionsPagerAdapter(getSupportFragmentManager(), fragments);
         mViewPager = (ViewPager) findViewById(R.id.lobby_pager);
