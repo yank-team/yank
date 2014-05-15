@@ -8,6 +8,10 @@ import android.support.v4.view.ViewPager;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarActivity;
 
+import com.yankteam.yank.app.lobbyfragments.ListFragment;
+import com.yankteam.yank.app.lobbyfragments.MapFragment;
+import com.yankteam.yank.app.lobbyfragments.SavedFragment;
+
 import java.util.List;
 import java.util.Vector;
 

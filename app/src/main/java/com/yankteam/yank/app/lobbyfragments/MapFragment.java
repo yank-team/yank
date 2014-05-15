@@ -1,4 +1,4 @@
-package com.yankteam.yank.app;
+package com.yankteam.yank.app.lobbyfragments;
 
 import android.location.Location;
 import android.os.Bundle;
@@ -21,6 +21,7 @@ import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.CameraPosition;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
+import com.yankteam.yank.app.R;
 
 public class MapFragment extends Fragment implements GooglePlayServicesClient.ConnectionCallbacks,
         GooglePlayServicesClient.OnConnectionFailedListener, LocationListener {
