@@ -67,6 +67,11 @@ public class MapFragment extends Fragment implements GooglePlayServicesClient.Co
                     .replace(R.id.lobby_map, mMapFragment)
                     .commit();
         }
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
 
         // set up map
         mMap = mMapFragment.getMap();
@@ -88,6 +93,7 @@ public class MapFragment extends Fragment implements GooglePlayServicesClient.Co
         mLocationClient.connect();
 
         // TODO: implement map on-change listener
+
     }
 
     @Override

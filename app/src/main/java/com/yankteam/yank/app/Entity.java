@@ -8,16 +8,19 @@ import android.location.Location;
  */
 public class Entity {
     private String name;
+    private String desc;
+
     private Double lat;
     private Double lng;
 
-    public Entity(String name) {
-        this(name, 0.0, 0.0);
+    public Entity(String name, String desc) {
+        this(name, desc, 0.0, 0.0);
     }
-    public Entity(String name, double lat, double lng) {
+    public Entity(String name, String desc, double lat, double lng) {
         this.name = name;
         this.lat  = lat;
         this.lng  = lng;
+        this.desc = desc;
     }
 
     // getters and setters
@@ -26,6 +29,13 @@ public class Entity {
     }
     public void setName(String name) {
         this.name = name;
+    }
+
+    public String getDesc(){
+        return desc;
+    }
+    public void setDesc(String desc) {
+        this.desc = desc;
     }
 
     public double getLat(){

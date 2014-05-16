@@ -20,6 +20,7 @@ public class EntityList extends ArrayAdapter<Entity> {
     static class ViewHolder {
         public ImageView avatar;
         public TextView  name;
+        public TextView  desc;
     }
 
     public EntityList(Activity context, Entity[] entities) {
@@ -41,7 +42,8 @@ public class EntityList extends ArrayAdapter<Entity> {
             // configure view holder and tag it to the row view
             ViewHolder outgoingHolder = new ViewHolder();
             outgoingHolder.avatar = (ImageView) rowView.findViewById(R.id.img_entity_avatar);
-            outgoingHolder.name   = (TextView) rowView.findViewById(R.id.str_entity_name);
+            outgoingHolder.name   = (TextView)  rowView.findViewById(R.id.str_entity_name);
+            outgoingHolder.desc   = (TextView)  rowView.findViewById(R.id.str_entity_desc);
             rowView.setTag(outgoingHolder);
         }
 
@@ -49,7 +51,8 @@ public class EntityList extends ArrayAdapter<Entity> {
         ViewHolder holder = (ViewHolder) rowView.getTag();
 
         // Set values of layout components here
-        holder.name.setText( entities[pos].getName());
+        holder.name.setText(entities[pos].getName());
+        holder.desc.setText(entities[pos].getDesc());
 
         return rowView;
     }
