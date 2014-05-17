@@ -5,10 +5,12 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.os.Bundle;
+import android.widget.AdapterView;
+import android.widget.LinearLayout;
 import android.widget.ListView;
 
-import com.yankteam.yank.app.Entity;
-import com.yankteam.yank.app.EntityList;
+import com.yankteam.yank.app.components.Entity;
+import com.yankteam.yank.app.components.EntityList;
 import com.yankteam.yank.app.R;
 
 /*

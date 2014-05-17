@@ -1,4 +1,4 @@
-package com.yankteam.yank.app;
+package com.yankteam.yank.app.components;
 
 import android.location.Location;
 

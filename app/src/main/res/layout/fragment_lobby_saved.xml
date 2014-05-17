@@ -3,10 +3,30 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical" android:layout_width="match_parent"
     android:layout_height="match_parent">
-
-    <TextView
+    <LinearLayout
+        android:id="@+id/msg_no_saved_yanks"
         android:layout_width="fill_parent"
         android:layout_height="fill_parent"
-        android:text="this is the saved yanks"
-        android:id="@+id/textView" />
+        android:orientation="vertical"
+        >
+        <TextView
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/str_no_saved_yanks"
+            android:textAllCaps="true"
+            android:fontFamily="sans-serif-thin"
+            android:textSize="40sp"
+            android:gravity="center"
+            android:paddingTop="25dp"
+            />
+        <TextView
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/str_msg_no_saved_yanks"
+            android:fontFamily="sans-serif-thin"
+            android:textSize="25sp"
+            android:gravity="center"
+            android:padding="10dp"
+            />
+    </LinearLayout>
 </LinearLayout>
