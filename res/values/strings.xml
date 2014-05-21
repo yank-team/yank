@@ -3,15 +3,32 @@
 
     <!-- branding -->
     <string name="app_name">Yank</string>
-    <string name="tagline">Save Your Surroundings</string>
+    <string name="tagline">
+        Save Your Surroundings
+    </string>
 
     <!-- login screen -->
     <string name="username">Username</string>
     <string name="password">Password</string>
-
     <string name="signup">Sign Up</string>
     <string name="login">Log In</string>
 
+    <!-- map view -->
+    <string name="search_for_yanks">Search for Yanks</string>
+
     <!-- actions -->
     <string name="action_settings">Settings</string>
+    <string name="action_newyank">New Yank</string>
+
+    <!-- messages -->
+    <string name="str_no_saved_yanks">no saved yanks</string>
+    <string name="str_msg_no_saved_yanks">
+        When you annotate or favorite a post, its entity will appear here.
+    </string>
+    
+    <string name="take_photo">Take a picture</string>
+    <string name="pick_photo">Choose a picture from album</string>
+    <string name="attachToContact">Make a Yank</string>
+    <string name="photoPickerNotFoundText">No pictures found</string>
+
 </resources>

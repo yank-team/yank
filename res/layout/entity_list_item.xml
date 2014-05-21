@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="horizontal"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="#f0f0f0"
+    >
+
+    <ImageView
+        android:id="@+id/img_entity_avatar"
+        android:layout_height="98dp"
+        android:layout_width="98dp"
+        android:layout_margin="10dp"
+        android:background="@drawable/entity_avatar"
+        />
+
+    <LinearLayout
+        android:id="@+id/entity_list_content"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="10dp"
+        android:orientation="vertical"
+        >
+        <!-- Item title -->
+        <TextView
+            android:id="@+id/str_entity_name"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:paddingTop="10dp"
+            android:paddingBottom="10dp"
+            android:textSize="20sp"
+            android:fontFamily="sans-serif-light"
+            />
+        <!-- textual information -->
+        <TextView
+            android:id="@+id/str_entity_desc"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:paddingTop="10dp"
+            android:paddingBottom="10dp"
+            android:fontFamily="sans-serif-light"
+            />
+        <!-- contextual buttons-->
+        <LinearLayout
+            android:id="@+id/entity_list_buttons"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:visibility="gone"
+            >
+            <ImageButton
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:src="@drawable/ic_action_favorite"
+                android:background="@drawable/btn_success"
+                android:layout_marginBottom="5dp"
+                android:padding="5dp"
+                android:layout_weight="1"
+                />
+            <ImageButton
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:src="@drawable/ic_action_map"
+                android:background="@drawable/btn_success"
+                android:padding="5dp"
+                android:layout_weight="1"
+                />
+            <ImageButton
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:src="@drawable/ic_action_chat"
+                android:background="@drawable/btn_success"
+                android:padding="5dp"
+                android:layout_weight="1"
+                />
+        </LinearLayout>
+    </LinearLayout>
+</LinearLayout>

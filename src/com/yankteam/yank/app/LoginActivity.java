@@ -1,12 +1,21 @@
 package com.yankteam.yank.app;
 
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
+
+import org.apache.http.client.methods.HttpGet;
+import org.apache.http.client.methods.HttpPost;
+import org.apache.http.impl.client.DefaultHttpClient;
+
+import java.net.URL;
 
 public class LoginActivity extends ActionBarActivity {
 
@@ -30,27 +39,33 @@ public class LoginActivity extends ActionBarActivity {
         });
     }
 
+    // in onResume, we need to pull a saved APIK out of our shared prefs. If it doesn't exist,
+    // allow the user to login/signup -- if it exists verify that the key is valid
     @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
-        // getMenuInflater().inflate(R.menu.main, menu);
-        return true;
+    public void onResume() {
+        super.onResume();
+
+        SharedPreferences sPrefs = this.getPreferences(Context.MODE_PRIVATE);
+        String apik = sPrefs.getString("YANK_APIK", null);
+
+        // if there's an APIK, try it
+        if (apik != null) {
+        }
     }
 
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
-        /*int id = item.getItemId();
-        if (id == R.id.action_settings) {
-            return true;
-        }*/
-        return super.onOptionsItemSelected(item);
-    }
-
+    /* switch activities */
     private void gotoLobby() {
         Intent intent = new Intent(this, LobbyActivity.class);
         startActivity(intent);
+    }
+
+    // asynctask to contact the server for the first time
+    private class VerifyApikTask extends AsyncTask<URL, Void, String> {
+        @Override
+        protected String doInBackground(URL... urls) {
+            DefaultHttpClient httpClient = new DefaultHttpClient();
+            HttpPost postReq = new HttpPost();
+            return null;
+        }
     }
 }
