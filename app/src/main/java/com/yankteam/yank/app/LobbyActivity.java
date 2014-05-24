@@ -20,6 +20,7 @@ import java.util.Vector;
 public class LobbyActivity extends ActionBarActivity implements ActionBar.TabListener {
     private SectionsPagerAdapter mSectionsPagerAdapter;
     private ViewPager mViewPager;
+    AppInfo appInfo;
 
     // Fragment manager
     public static FragmentManager fragmentManager;

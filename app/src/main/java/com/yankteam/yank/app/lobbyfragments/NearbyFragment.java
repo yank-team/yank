@@ -9,6 +9,7 @@ import android.widget.AdapterView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 
+import com.yankteam.yank.app.AppInfo;
 import com.yankteam.yank.app.components.Entity;
 import com.yankteam.yank.app.components.EntityList;
 import com.yankteam.yank.app.R;
@@ -18,6 +19,9 @@ import com.yankteam.yank.app.R;
  * auto-searches yanks in the immediate vicinity -- displays them on a list.
  */
 public class NearbyFragment extends Fragment {
+
+    AppInfo appInfo = AppInfo.getInstance();
+    String api_key = appInfo.api_key;
 
     // Lorem ipsum text for testing
     String lorem = "Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod " +

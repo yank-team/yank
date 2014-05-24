@@ -46,6 +46,8 @@ public class LoginActivity extends ActionBarActivity {
     EditText mEtxtUsername;
     EditText mEtxtPassword;
 
+    AppInfo appInfo;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -63,7 +65,7 @@ public class LoginActivity extends ActionBarActivity {
             @Override
             public void onClick(View v) {
                 // initiate an asynctask
-                new LoginTask().execute(
+                 new LoginTask().execute(
                         mEtxtUsername.getText().toString(),
                         mEtxtPassword.getText().toString() );
             }
@@ -159,6 +161,34 @@ public class LoginActivity extends ActionBarActivity {
         @Override
         protected void onPostExecute(String s) {
             super.onPostExecute(s);
+            try {
+                JSONObject mainObject = new JSONObject(s);
+                Log.d(LoginActivity.LOG_TAG, s);
+                Boolean success_response = mainObject.getBoolean("success");
+                String msg_response = mainObject.getString("msg");
+                JSONObject data_response = mainObject.getJSONObject("data");
+                String api_key = data_response.getString("apik");
+
+                if(success_response){
+                    //store api key
+                    appInfo = AppInfo.getInstance();
+                    appInfo.api_key = api_key;
+                    Log.d(LoginActivity.LOG_TAG, msg_response);
+                    //send user through
+                    gotoLobby();
+                }else {
+                    //shit failed
+                    Log.d(LoginActivity.LOG_TAG, msg_response);
+
+                    //toast user, bad login
+                }
+
+
+
+            } catch (JSONException e) {
+                //whatever
+                e.printStackTrace();
+            }
 
             // TODO: UI THREAD STUFF
             // Log.d(LoginActivity.LOG_TAG, s);
