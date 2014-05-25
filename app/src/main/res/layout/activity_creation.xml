@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    >
+
+    <LinearLayout
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content">
+
+        <ImageView
+            android:id="@+id/image_view"
+            android:layout_width="115dp"
+            android:layout_height="115dp"
+            android:layout_margin="10dp"
+            android:background="@drawable/ml_edittext"
+            />
+        <EditText
+            android:id="@+id/title_field"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="10dp"
+            android:hint="What is it?"
+            />
+    </LinearLayout>
+
+    <EditText
+        android:id="@+id/full_text_field"
+        android:layout_width="fill_parent"
+        android:layout_height="0dp"
+        android:layout_weight="7"
+        android:inputType="textMultiLine"
+        android:gravity="top"
+        android:background="@drawable/ml_edittext"
+        android:layout_margin="10dp"
+        android:hint="Why is it interesting?"
+        android:padding="5dp"
+        />
+
+    <Button
+        android:id="@+id/submit_button"
+        android:layout_width="fill_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:text="submit"
+        android:background="@drawable/btn_primary"
+        android:textColor="#ffffff"
+        />
+
+</LinearLayout>

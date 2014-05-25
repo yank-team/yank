@@ -23,6 +23,8 @@ public class NearbyFragment extends Fragment {
     AppInfo appInfo = AppInfo.getInstance();
     String api_key = appInfo.api_key;
 
+
+
     // Lorem ipsum text for testing
     String lorem = "Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod " +
             "tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim";

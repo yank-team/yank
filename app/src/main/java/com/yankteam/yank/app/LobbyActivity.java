@@ -1,4 +1,5 @@
 package com.yankteam.yank.app;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -7,8 +8,10 @@ import android.support.v4.app.FragmentTransaction;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarActivity;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
+import android.view.MenuItem;
 
 import com.yankteam.yank.app.lobbyfragments.MapFragment;
 import com.yankteam.yank.app.lobbyfragments.NearbyFragment;
@@ -35,6 +38,7 @@ public class LobbyActivity extends ActionBarActivity implements ActionBar.TabLis
         actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_TABS);
         actionBar.setDisplayShowTitleEnabled(false);
         actionBar.setDisplayShowHomeEnabled(false);
+
 
         // set up the view pager
         initializePager();
@@ -71,6 +75,19 @@ public class LobbyActivity extends ActionBarActivity implements ActionBar.TabLis
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.lobby, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.action_newyank:
+                gotoCreation();
+                break;
+            case R.id.action_settings:
+                // Intent to go to settings
+                break;
+        }
         return true;
     }
 
@@ -139,5 +156,10 @@ public class LobbyActivity extends ActionBarActivity implements ActionBar.TabLis
     @Override
     public void onBackPressed(){
         // nothing yet...
+    }
+
+    private void gotoCreation() {
+        Intent intent = new Intent(this, CreationActivity.class);
+        startActivity(intent);
     }
 }

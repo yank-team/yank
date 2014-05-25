@@ -58,5 +58,12 @@
             android:uiOptions="splitActionBarWhenNarrow"
             >
         </activity>
+
+        <activity
+            android:name="com.yankteam.yank.app.CreationActivity"
+            android:label="creation"
+            android:screenOrientation="portrait"
+            >
+        </activity>
     </application>
 </manifest>
