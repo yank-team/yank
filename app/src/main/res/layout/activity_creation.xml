@@ -17,6 +17,7 @@
             android:layout_height="115dp"
             android:layout_margin="10dp"
             android:background="@drawable/ml_edittext"
+
             />
         <EditText
             android:id="@+id/title_field"
