@@ -14,13 +14,15 @@ import android.widget.TextView;
 import com.yankteam.yank.app.R;
 import com.yankteam.yank.app.components.Entity;
 
+import java.util.List;
+
 /*
  * List adapter for entities
  */
 public class EntityList extends ArrayAdapter<Entity> {
 
     private final Activity context;
-    private final Entity[] entities;
+    private final List<Entity> entities;
 
     Animation animSlideDown = AnimationUtils.loadAnimation(getContext(), R.anim.abc_slide_out_bottom);
 
@@ -32,7 +34,7 @@ public class EntityList extends ArrayAdapter<Entity> {
         public LinearLayout ctxButtons;
     }
 
-    public EntityList(Activity context, Entity[] entities) {
+    public EntityList(Activity context, List <Entity> entities) {
         super(context, R.layout.entity_list_item, entities);
         this.context  = context;
         this.entities = entities;
@@ -62,8 +64,8 @@ public class EntityList extends ArrayAdapter<Entity> {
         final ViewHolder holder = (ViewHolder) rowView.getTag();
 
         // Set values of layout components here
-        holder.name.setText(entities[pos].getName());
-        holder.desc.setText(entities[pos].getDesc());
+        holder.name.setText(entities.get(pos).getName());
+        holder.desc.setText(entities.get(pos).getDesc());
 
         // set up a click listener
         rowView.setOnLongClickListener(new View.OnLongClickListener() {

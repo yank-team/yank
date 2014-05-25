@@ -14,13 +14,12 @@ public class Entity {
     private Double lng;
 
     public Entity(String name, String desc) {
-        this(name, desc, 0.0, 0.0);
+        this(name, 0.0, 0.0);
     }
-    public Entity(String name, String desc, double lat, double lng) {
+    public Entity(String name, double lat, double lng) {
         this.name = name;
         this.lat  = lat;
         this.lng  = lng;
-        this.desc = desc;
     }
 
     // getters and setters
