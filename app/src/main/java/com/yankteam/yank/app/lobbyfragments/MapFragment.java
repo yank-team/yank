@@ -1,8 +1,10 @@
 package com.yankteam.yank.app.lobbyfragments;
 
 import android.content.Context;
+import android.content.Intent;
 import android.location.Location;
 import android.location.LocationManager;
+import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -134,6 +136,7 @@ public class MapFragment extends Fragment implements GooglePlayServicesClient.Co
         mMap.getUiSettings().setMyLocationButtonEnabled(true);
         mMap.getUiSettings().setRotateGesturesEnabled(true);
         mMap.getUiSettings().setCompassEnabled(true);
+
 
         // set up location client
         mLocationClient  = new LocationClient(getActivity(), this, this);
@@ -286,6 +289,13 @@ public class MapFragment extends Fragment implements GooglePlayServicesClient.Co
                     for(int n = 0; n < data_response.length(); n++){
                         JSONObject object = data_response.getJSONObject(n);
                         Log.d(MapFragment.LOG_TAG, "Found: " + object.toString());
+                        /*
+                        Uri uri = Uri.parse("geo:" + object.getDouble("lat") + "," + object.getDouble("lng")+
+                                "?z=14&q=" + object.getDouble("lat") + "," + object.getDouble("lng") + "(" +
+                                object.getString("name").replace(" ", "+")  +")");
+                        Intent intent = new Intent(Intent.ACTION_VIEW, uri);
+                        startActivity(intent);
+                        */
                     }
                 }else {
                     //shit failed
