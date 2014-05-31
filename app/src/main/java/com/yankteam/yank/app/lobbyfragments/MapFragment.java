@@ -176,6 +176,8 @@ public class MapFragment extends Fragment implements GooglePlayServicesClient.Co
             if(LatLngChange(location.getLatitude(), location.getLongitude())){
                 longitude = location.getLongitude();
                 latitude = location.getLatitude();
+                appInfo.my_lat = latitude;
+                appInfo.my_lng = longitude;
                 Log.d(MapFragment.LOG_TAG, "found lon: " + longitude + " found lat: " + latitude);
                 new MapPopulateTask().execute(5000.0 , latitude, longitude);
             }
@@ -223,10 +225,13 @@ public class MapFragment extends Fragment implements GooglePlayServicesClient.Co
 
                 // Assemble request
                 StringEntity entity = new StringEntity(json.toString());
+
+                Log.d(MapFragment.LOG_TAG, "sending: " + json.toString());
+
                 entity.setContentType(new BasicHeader(HTTP.CONTENT_TYPE, "application/json"));
                 postReq.setEntity(entity);
 
-                Log.d(MapFragment.LOG_TAG, "sending: " + entity.toString());
+
 
                 // Send request
                 response = httpClient.execute(postReq);

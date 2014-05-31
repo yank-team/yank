@@ -59,14 +59,14 @@ public class NearbyFragment extends Fragment {
             return null;
 
         //give lat an lng
-        new GetNearEntitiesTask().execute(0, 0);
+        new GetNearEntitiesTask().execute(appInfo.my_lat, appInfo.my_lng);
         view = inflater.inflate(R.layout.fragment_lobby_nearby, container, false);
         return view;
     }
 
-    private class GetNearEntitiesTask extends AsyncTask<Integer, Void, String> {
+    private class GetNearEntitiesTask extends AsyncTask<Double, Void, String> {
         @Override
-        protected String doInBackground(Integer... args) {
+        protected String doInBackground(Double... args) {
             DefaultHttpClient httpClient = new DefaultHttpClient();
             HttpGet getReq = new HttpGet(getString(R.string.jheron_api) + "/entity/");
             HttpResponse response = null;
