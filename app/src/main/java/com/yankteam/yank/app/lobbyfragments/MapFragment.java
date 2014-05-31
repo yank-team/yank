@@ -29,6 +29,7 @@ import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.yankteam.yank.app.AppInfo;
 import com.yankteam.yank.app.R;
+import com.yankteam.yank.app.components.Entity;
 
 import org.apache.http.HttpResponse;
 import org.apache.http.client.ClientProtocolException;
@@ -46,12 +47,16 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.UnsupportedEncodingException;
+import java.util.ArrayList;
+import java.util.List;
 
 public class MapFragment extends Fragment implements GooglePlayServicesClient.ConnectionCallbacks,
         GooglePlayServicesClient.OnConnectionFailedListener, LocationListener {
 
     public static final String LOG_TAG = "MapFragment";
     AppInfo appInfo = AppInfo.getInstance();
+    List<Entity> entity_list = new ArrayList<Entity>();
+    Entity entity;
 
 
     private SupportMapFragment mMapFragment;
@@ -91,23 +96,15 @@ public class MapFragment extends Fragment implements GooglePlayServicesClient.Co
         lm = (LocationManager)context.getSystemService(context.LOCATION_SERVICE);
         location = lm.getLastKnownLocation(LocationManager.GPS_PROVIDER);
         if (location != null) {
-            if(LatLngChange(location.getLatitude(), location.getLongitude())){
             longitude = location.getLongitude();
             latitude = location.getLatitude();
             Log.d(MapFragment.LOG_TAG, "found lon: " + longitude + " found lat: " + latitude);
             new MapPopulateTask().execute(5000.0 , latitude, longitude);
-            }
         } else {
             longitude = 0.0;
             latitude = 0.0;
         }
         return view;
-    }
-
-    public boolean LatLngChange(double newLat, double newLng){
-    //if rounded public lattitude != rounded newLat return true
-    //if rounded public longitude != rounded newLng return true
-        return true;
     }
 
     @Override
@@ -173,24 +170,7 @@ public class MapFragment extends Fragment implements GooglePlayServicesClient.Co
 
     @Override
     public void onLocationChanged(Location location) {
-
-        location = lm.getLastKnownLocation(LocationManager.GPS_PROVIDER);
-        if (location != null) {
-            if(LatLngChange(location.getLatitude(), location.getLongitude())){
-                longitude = location.getLongitude();
-                latitude = location.getLatitude();
-                appInfo.my_lat = latitude;
-                appInfo.my_lng = longitude;
-                Log.d(MapFragment.LOG_TAG, "found lon: " + longitude + " found lat: " + latitude);
-                new MapPopulateTask().execute(5000.0 , latitude, longitude);
-            }
-        } else {
-            longitude = 0.0;
-            latitude = 0.0;
-        }
-
         recenterCamera();
-
     }
 
     @Override
@@ -289,6 +269,12 @@ public class MapFragment extends Fragment implements GooglePlayServicesClient.Co
                     for(int n = 0; n < data_response.length(); n++){
                         JSONObject object = data_response.getJSONObject(n);
                         Log.d(MapFragment.LOG_TAG, "Found: " + object.toString());
+                        double lat = object.getDouble("lat");
+                        double lng = object.getDouble("lng");
+                        String name = object.getString("name");
+                        entity = new Entity(name, lat, lng);
+                        entity_list.add(entity);
+                        //puts pin in google maps not in yank, maybe reusable
                         /*
                         Uri uri = Uri.parse("geo:" + object.getDouble("lat") + "," + object.getDouble("lng")+
                                 "?z=14&q=" + object.getDouble("lat") + "," + object.getDouble("lng") + "(" +
@@ -297,12 +283,13 @@ public class MapFragment extends Fragment implements GooglePlayServicesClient.Co
                         startActivity(intent);
                         */
                     }
+
+                    //dump into ORM
+
                 }else {
                     //shit failed
                     Log.d(MapFragment.LOG_TAG, "map failed: likely user");
                     Log.d(MapFragment.LOG_TAG, msg_response);
-
-                    //toast user, bad login
                 }
 
 
