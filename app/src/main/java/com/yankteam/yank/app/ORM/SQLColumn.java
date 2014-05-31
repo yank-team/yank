@@ -56,4 +56,9 @@ public class SQLColumn {
                 return "INTEGER";
         }
     }
+
+    // getters
+    public String getName() {
+        return name;
+    }
 }

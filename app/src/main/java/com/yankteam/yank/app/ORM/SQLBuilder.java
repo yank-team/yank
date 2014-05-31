@@ -1,5 +1,7 @@
 package com.yankteam.yank.app.ORM;
 
+import java.util.ArrayList;
+
 /*
  * SQLBuilder
  * Builds SQL automatically, because seriously... fuck multiline strings.
@@ -13,12 +15,6 @@ public class SQLBuilder {
         sql.append("CREATE TABLE ");
         sql.append(name);
         sql.append("(");
-
-        // We always add a primary key
-        SQLColumn pk = new SQLColumn("id", SQLColumn.TYPE_INTEGER,
-                "primary key autoincrement");
-        sql.append(pk.getColumnDecl());
-        sql.append(",");
 
         // Iterate over columns
         for (int i=0; i<cols.length; i++){
@@ -36,11 +32,55 @@ public class SQLBuilder {
         return sql.toString();
     }
 
-    // Search for IDs with a SELECT statement
-    public void
-
     // Drop a table
     public String dropTable(String name){
         return "DROP TABLE IF EXISTS" + name;
+    }
+
+    // Search for IDs with a SELECT statement
+    // SELECT * FROM <table> WHERE id = <id> OR ... OR id = <id>;
+    public String selectIDs (String table, int[] IDs) {
+        StringBuilder sql = new StringBuilder();
+
+        // Start selection statement
+        sql.append("SELECT id FROM ");
+        sql.append(table);
+        sql.append(" WHERE ");
+
+        // iterate over ids
+        for(int i=0; i<IDs.length; i++) {
+
+            // construct an OR complex...
+            sql.append("id=");
+            sql.append(IDs[i]);
+            if (i < IDs.length-1) {
+                sql.append(" OR ");
+            }
+        }
+
+        // return finished statement
+        sql.append(";");
+        return sql.toString();
+    }
+
+    // Insert entities
+    public String tableInsert(SQLTable table, ArrayList<SQLValue> values) {
+        StringBuilder sql = new StringBuilder();
+        sql.append("INSERT INTO ");
+        sql.append(table.getName());
+        sql.append("(");
+
+        // specify columns
+        for(int i=0; i<table.numCols(); i++){
+            sql.append(table.getColumn(i).getName());
+            if (i < table.numCols()-1) {
+                sql.append(",");
+            }
+        }
+        sql.append(") VALUES(");
+
+        for (int i=0; i<values.size(); i++){
+        }
+        return sql.toString();
     }
 }
