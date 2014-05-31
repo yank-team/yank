@@ -36,6 +36,9 @@ public class SQLBuilder {
         return sql.toString();
     }
 
+    // Search for IDs with a SELECT statement
+    public void
+
     // Drop a table
     public String dropTable(String name){
         return "DROP TABLE IF EXISTS" + name;
