@@ -9,6 +9,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.os.Bundle;
 import android.widget.AdapterView;
+import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 
@@ -52,6 +53,7 @@ public class NearbyFragment extends Fragment {
     Entity entity;
     ListView mEntityList;
     View view;
+    Button note_button;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle saveInstanceState) {
@@ -61,6 +63,15 @@ public class NearbyFragment extends Fragment {
         //give lat an lng
         new GetNearEntitiesTask().execute(0, 0);
         view = inflater.inflate(R.layout.fragment_lobby_nearby, container, false);
+        note_button = (Button) view.findViewById(R.id.note_button);
+
+        note_button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                //get the note based on the position of the button clicked in the entities list
+            }
+        });
+
         return view;
     }
 
@@ -136,7 +147,10 @@ public class NearbyFragment extends Fragment {
                         double lat = object.getDouble("lat");
                         double lng = object.getDouble("lng");
                         String name = object.getString("name");
-                        entity = new Entity(name, lat, lng);
+                        Integer entity_id = object.getInt("eid");
+                        //Integer note_id = object.getInt("nid");
+                        Integer note_id = 0;
+                        entity = new Entity(name, lat, lng, entity_id, note_id);
                         entity_list.add(entity);
                     }
                     mEntityList = (ListView) view.findViewById(R.id.list_nearby_entities);

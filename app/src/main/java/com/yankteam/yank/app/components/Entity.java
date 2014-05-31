@@ -13,13 +13,18 @@ public class Entity {
     private Double lat;
     private Double lng;
 
+    private Integer nid;
+    private Integer eid;
+
     public Entity(String name, String desc) {
-        this(name, 0.0, 0.0);
+        this(name, 0.0, 0.0, 0, 0);
     }
-    public Entity(String name, double lat, double lng) {
+    public Entity(String name, double lat, double lng, Integer eid, Integer nid) {
         this.name = name;
         this.lat  = lat;
         this.lng  = lng;
+        this.eid = eid;
+        this.nid = nid;
     }
 
     // getters and setters
@@ -29,6 +34,12 @@ public class Entity {
     public void setName(String name) {
         this.name = name;
     }
+
+    public Integer getEid() { return eid; }
+    public void setEid(Integer eid) { this.eid = eid; }
+
+    public Integer getNid() { return nid; }
+    public void setNid(Integer nid) { this.nid = nid; }
 
     public String getDesc(){
         return desc;
