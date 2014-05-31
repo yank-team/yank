@@ -1,22 +1,17 @@
 package com.yankteam.yank.app.components;
 
 import android.app.Activity;
-import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.ArrayAdapter;
-import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-import com.yankteam.yank.app.AppInfo;
-import com.yankteam.yank.app.LobbyActivity;
 import com.yankteam.yank.app.R;
-import com.yankteam.yank.app.ReadNoteActivity;
 import com.yankteam.yank.app.components.Entity;
 
 import java.util.List;
@@ -28,7 +23,6 @@ public class EntityList extends ArrayAdapter<Entity> {
 
     private final Activity context;
     private final List<Entity> entities;
-    AppInfo appInfo = null;
 
     Animation animSlideDown = AnimationUtils.loadAnimation(getContext(), R.anim.abc_slide_out_bottom);
 
@@ -86,23 +80,6 @@ public class EntityList extends ArrayAdapter<Entity> {
                 return true;
             }
         });
-
-        // set up a click listener for note button
-        ImageButton noteButton = (ImageButton) rowView.findViewById(R.id.note_button);
-        noteButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-
-                // store the eid and launch the ReadNoteActivity
-                appInfo = AppInfo.getInstance();
-                appInfo.eid = entities.get(pos).getEid();
-
-                Intent intent = new Intent(getContext(), ReadNoteActivity.class);
-                startActivity
-            }
-        });
-
-
         return rowView;
     }
 }

@@ -65,13 +65,5 @@
             android:screenOrientation="portrait"
             >
         </activity>
-
-        <activity
-            android:name="com.yankteam.yank.app.ReadNoteActivity"
-            android:label="creation"
-            android:screenOrientation="portrait"
-            >
-        </activity>
-
     </application>
 </manifest>

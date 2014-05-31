@@ -48,10 +48,9 @@
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
-            android:visibility="visible"
+            android:visibility="gone"
             >
             <ImageButton
-                android:id="@+id/save_button"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:src="@drawable/ic_action_favorite"
@@ -61,7 +60,6 @@
                 android:layout_weight="1"
                 />
             <ImageButton
-                android:id="@+id/map_button"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:src="@drawable/ic_action_map"
@@ -70,7 +68,6 @@
                 android:layout_weight="1"
                 />
             <ImageButton
-                android:id="@+id/note_button"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:src="@drawable/ic_action_chat"
