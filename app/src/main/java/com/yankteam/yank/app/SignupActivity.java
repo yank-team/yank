@@ -1,15 +1,18 @@
 package com.yankteam.yank.app;
 
-import android.content.Context;
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.os.AsyncTask;
-import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
+import android.os.Bundle;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Toast;
 
 import org.apache.http.HttpResponse;
 import org.apache.http.client.ClientProtocolException;
@@ -26,89 +29,60 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.UnsupportedEncodingException;
-import java.net.URL;
 
-public class LoginActivity extends ActionBarActivity {
 
-    public static final String LOG_TAG = "LoginActivity";
+public class SignupActivity extends ActionBarActivity {
 
-    Button mLoginButton;
-    Button mSignupButton;
+    private final String LOG_TAG = "SingupActivity";
 
-    EditText mEtxtUsername;
-    EditText mEtxtPassword;
+    private String password;
+    private String confirm_pw;
+    private String uid;
+
+    private EditText pw;
+    private EditText user_id;
+    private EditText confirm;
 
     AppInfo appInfo;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_login);
+        setContentView(R.layout.activity_signup);
 
-        // Get references to layout components
-        mLoginButton  = (Button) findViewById(R.id.btn_login);
-        mSignupButton = (Button) findViewById(R.id.btn_signup);
+        Log.i(LOG_TAG , "in signup activity");
 
-        mEtxtUsername = (EditText) findViewById(R.id.etxt_username);
-        mEtxtPassword = (EditText) findViewById(R.id.etxt_password);
+        user_id = (EditText) findViewById(R.id.userid);
+        pw = (EditText) findViewById(R.id.password);
+        confirm = (EditText) findViewById(R.id.confirm_pw);
 
-        // For now, we're just going to switch automatically
-        mLoginButton.setOnClickListener(new View.OnClickListener() {
+        Button submit_btn = (Button) findViewById(R.id.submit);
+
+        Log.i(LOG_TAG, "got all the views");
+
+        submit_btn.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View v) {
-                // initiate an asynctask
-                 new LoginTask().execute(
-                        mEtxtUsername.getText().toString(),
-                        mEtxtPassword.getText().toString() );
+            public void onClick(View view) {
+                password = pw.getText().toString();
+                confirm_pw = confirm.getText().toString();
+                uid = user_id.getText().toString();
+
+                if (!password.equals(confirm_pw))
+                    Toast.makeText(SignupActivity.this, "Password not the same", Toast.LENGTH_SHORT).show();
+
+                else {
+                    new SignupTask().execute(uid, password);
+                }
             }
         });
 
-        mSignupButton.setOnClickListener(new View.OnClickListener(){
-            @Override
-            public void onClick(View v){
-                // launch signup activity
-                Intent intent = new Intent(LoginActivity.this, SignupActivity.class);
-                startActivity(intent);
-            }
-        });
     }
 
-    // in onResume, we need to pull a saved APIK out of our shared prefs. If it doesn't exist,
-    // allow the user to login/signup -- if it exists verify that the key is valid
-    @Override
-    public void onResume() {
-        super.onResume();
-        SharedPreferences sPrefs = this.getPreferences(Context.MODE_PRIVATE);
-        String apik = sPrefs.getString("YANK_APIK", null);
-
-        // if there's an APIK, try it
-        /* TODO: flesh this out
-        if (apik != null) {
-        }
-        */
-    }
-
-    /* switch activities */
-    private void gotoLobby() {
-        Intent intent = new Intent(this, LobbyActivity.class);
-        startActivity(intent);
-    }
-
-    // asynctask to contact the server for the first time
-    private class VerifyApikTask extends AsyncTask<URL, Void, String> {
-        @Override
-        protected String doInBackground(URL... urls) {
-            DefaultHttpClient httpClient = new DefaultHttpClient();
-            HttpPost postReq = new HttpPost();
-            return null;
-        }
-    }
-
-    private class LoginTask extends AsyncTask<String, Void, String> {
+    private class SignupTask extends AsyncTask<String, Void, String> {
         @Override
         protected String doInBackground(String... args) {
             DefaultHttpClient httpClient = new DefaultHttpClient();
-            HttpPost postReq = new HttpPost(getString(R.string.jheron_api) + "auth/login/");
+            HttpPost postReq = new HttpPost(getString(R.string.jheron_api) + "auth/");
             HttpResponse response;
 
             // Set up a JSON request body
@@ -165,40 +139,65 @@ public class LoginActivity extends ActionBarActivity {
         protected void onPostExecute(String s) {
             super.onPostExecute(s);
             try {
-                Log.d(LoginActivity.LOG_TAG, "login json: " + s);
+                Log.i(LOG_TAG, "Signup json: " + s);
                 JSONObject mainObject = new JSONObject(s);
-                Log.d(LoginActivity.LOG_TAG, s);
                 Boolean success_response = mainObject.getBoolean("success");
                 String msg_response = mainObject.getString("msg");
-                JSONObject data_response = mainObject.getJSONObject("data");
-                String api_key = data_response.getString("apik");
+
+                Log.i(LOG_TAG, "success_response: " + success_response);
 
                 if(success_response){
-                    //store api key
-                    appInfo = AppInfo.getInstance();
-                    appInfo.api_key = api_key;
-                    Log.d(LoginActivity.LOG_TAG, msg_response);
+                    Toast.makeText(SignupActivity.this, "Signed up!", Toast.LENGTH_SHORT).show();
                     //send user through
-                    gotoLobby();
+                    finish();
                 }else {
-                    //shit failed
-                    Log.d(LoginActivity.LOG_TAG, "login failed: likely user");
-                    Log.d(LoginActivity.LOG_TAG, msg_response);
 
-                    //toast user, bad login
+                    Log.i(LOG_TAG, "sign up failed");
+                    final AlertDialog.Builder builder = new AlertDialog.Builder(SignupActivity.this);
+                    builder.setTitle(R.string.dialog_signup_failure).setMessage(msg_response)
+                            .setPositiveButton(R.string.ok_btn, new DialogInterface.OnClickListener() {
+                                public void onClick(DialogInterface dialog, int id) {
+                                    // cancel the dialog
+                                    dialog.dismiss();
+                                }
+                            });
+
+                    //builder.create();
+                    builder.show();
+                    // clear the texts
+                    user_id.setText("");
+                    pw.setText("");
+                    confirm.setText("");
                 }
-
-
 
             } catch (JSONException e) {
                 //ask user to retry login
                 e.printStackTrace();
                 Log.d(LoginActivity.LOG_TAG, "login failed: likely at server");
-
             }
 
             // TODO: UI THREAD STUFF
             // Log.d(LoginActivity.LOG_TAG, s);
         }
+    }
+
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        // Inflate the menu; this adds items to the action bar if it is present.
+        getMenuInflater().inflate(R.menu.signup, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        // Handle action bar item clicks here. The action bar will
+        // automatically handle clicks on the Home/Up button, so long
+        // as you specify a parent activity in AndroidManifest.xml.
+        int id = item.getItemId();
+        if (id == R.id.action_settings) {
+            return true;
+        }
+        return super.onOptionsItemSelected(item);
     }
 }
