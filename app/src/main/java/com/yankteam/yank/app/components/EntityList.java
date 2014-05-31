@@ -1,6 +1,7 @@
 package com.yankteam.yank.app.components;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -11,6 +12,7 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.yankteam.yank.app.EntityProfileActivity;
 import com.yankteam.yank.app.R;
 import com.yankteam.yank.app.components.Entity;
 
@@ -31,7 +33,6 @@ public class EntityList extends ArrayAdapter<Entity> {
         public ImageView avatar;
         public TextView  name;
         public TextView  desc;
-        public LinearLayout ctxButtons;
     }
 
     public EntityList(Activity context, List <Entity> entities) {
@@ -56,7 +57,6 @@ public class EntityList extends ArrayAdapter<Entity> {
             outgoingHolder.avatar     = (ImageView) rowView.findViewById(R.id.img_entity_avatar);
             outgoingHolder.name       = (TextView)  rowView.findViewById(R.id.str_entity_name);
             outgoingHolder.desc       = (TextView)  rowView.findViewById(R.id.str_entity_desc);
-            outgoingHolder.ctxButtons = (LinearLayout) rowView.findViewById(R.id.entity_list_buttons);
             rowView.setTag(outgoingHolder);
         }
 
@@ -67,19 +67,18 @@ public class EntityList extends ArrayAdapter<Entity> {
         holder.name.setText(entities.get(pos).getName());
         holder.desc.setText(entities.get(pos).getDesc());
 
-        // set up a click listener
-        rowView.setOnLongClickListener(new View.OnLongClickListener() {
+        rowView.setOnClickListener(new View.OnClickListener() {
             @Override
-            public boolean onLongClick(View v) {
-                // toggle button visibility
-                if (holder.ctxButtons.getVisibility() == View.GONE){
-                    holder.ctxButtons.setVisibility(View.VISIBLE);
-                } else {
-                    holder.ctxButtons.setVisibility(View.GONE);
-                }
-                return true;
+            public void onClick(View v) {
+                gotoEntityProfile();
             }
         });
         return rowView;
+    }
+
+    // entity activity goto
+    public void gotoEntityProfile() {
+        Intent intent = new Intent(context, EntityProfileActivity.class);
+        context.startActivity(intent);
     }
 }
