@@ -74,16 +74,6 @@ public class NearbyFragment extends Fragment {
             // Set up a JSON request body
             JSONObject json = new JSONObject();
             try {
-                // Prepare post data
-                // json.put("apik", api_key );
-                // json.put("lat", args[0] );
-                // json.put("lng", args[1] );
-
-                // Assemble request
-                // StringEntity entity = new StringEntity(json.toString());
-                // entity.setContentType(new BasicHeader(HTTP.CONTENT_TYPE, "application/json"));
-                // getReq.setEntity(entity);
-
                 // Send request
                 response = httpClient.execute(getReq);
 
