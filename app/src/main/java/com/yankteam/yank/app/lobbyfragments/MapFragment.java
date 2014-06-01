@@ -269,10 +269,11 @@ public class MapFragment extends Fragment implements GooglePlayServicesClient.Co
                     for(int n = 0; n < data_response.length(); n++){
                         JSONObject object = data_response.getJSONObject(n);
                         Log.d(MapFragment.LOG_TAG, "Found: " + object.toString());
+                        int eid = object.getInt("eid");
                         double lat = object.getDouble("lat");
                         double lng = object.getDouble("lng");
                         String name = object.getString("name");
-                        entity = new Entity(name, lat, lng);
+                        entity = new Entity(eid, name, lat, lng);
                         entity_list.add(entity);
                         //puts pin in google maps not in yank, maybe reusable
                         /*
