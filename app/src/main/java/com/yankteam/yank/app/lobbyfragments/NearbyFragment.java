@@ -136,7 +136,7 @@ public class NearbyFragment extends Fragment {
                         double lat = object.getDouble("lat");
                         double lng = object.getDouble("lng");
                         String name = object.getString("name");
-                        entity = new Entity(name, lat, lng);
+                        entity = new Entity(0, name, lat, lng);
                         entity_list.add(entity);
                     }
                     mEntityList = (ListView) view.findViewById(R.id.list_nearby_entities);
