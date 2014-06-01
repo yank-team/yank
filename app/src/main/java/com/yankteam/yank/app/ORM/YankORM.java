@@ -1,5 +1,6 @@
 package com.yankteam.yank.app.ORM;
 
+import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
@@ -36,7 +37,7 @@ public class YankORM {
     public void close() {
         helper.close();
     }
-
+    
     /*
      * ORM Calls:
      *     SearchIDs
@@ -74,29 +75,17 @@ public class YankORM {
 
         // build SQLValues
         ArrayList<SQLValue> insertVals = new ArrayList<SQLValue>();
-        for (int i=0; i<entities.size(); i++) {
-            Entity tmpEntity = entities.get(i);
-
-            // convert doubles to floats
-            // TODO: figure out if we can keep doubles on SQLite
-            Float fLat = new Float(tmpEntity.getLat());
-            Float fLng = new Float(tmpEntity.getLng());
-
+        for (Entity tmpEntity : entities) {
             // encode insertion values
-            insertVals.add(new SQLValue(tableEntity.getColumn(0), tmpEntity.getId()));
-            insertVals.add(new SQLValue(tableEntity.getColumn(1), tmpEntity.getName()));
-            insertVals.add(new SQLValue(tableEntity.getColumn(2), fLat));
-            insertVals.add(new SQLValue(tableEntity.getColumn(3), fLng));
+            ContentValues contentValues = new ContentValues();
+            contentValues.put("id", tmpEntity.getId());
+            contentValues.put("name", tmpEntity.getName());
+            contentValues.put("lat", tmpEntity.getLat());
+            contentValues.put("lng", tmpEntity.getLng());
 
-            // get the query
-            String query = mSQLBuilder.tableInsert(tableEntity, insertVals);
-
-            // execute the query
-            Cursor sqlCursor = db.rawQuery(query, null);
-            // TODO: if we want to do something with the inserted value, do it here
-            sqlCursor.close();
+            // Insert values
+            db.insert("entity", null, contentValues);
         }
-
         close();
     }
 
@@ -111,7 +100,7 @@ public class YankORM {
 
         sqlCursor.moveToFirst();
         while (!sqlCursor.isAfterLast()) {
-            retStr.append(sqlCursor.toString());
+            retStr.append(sqlCursor.getString(1));
             sqlCursor.moveToNext();
         }
         sqlCursor.close();

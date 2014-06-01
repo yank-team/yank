@@ -12,9 +12,9 @@ public class SQLBuilder {
     public String createTable (String name, SQLColumn[] cols) {
 
         StringBuilder sql = new StringBuilder();
-        sql.append("CREATE TABLE ");
+        sql.append("CREATE TABLE IF NOT EXISTS ");
         sql.append(name);
-        sql.append("(");
+        sql.append(" (");
 
         // Iterate over columns
         for (int i=0; i<cols.length; i++){
@@ -60,27 +60,6 @@ public class SQLBuilder {
 
         // return finished statement
         sql.append(";");
-        return sql.toString();
-    }
-
-    // Insert entities
-    public String tableInsert(SQLTable table, ArrayList<SQLValue> values) {
-        StringBuilder sql = new StringBuilder();
-        sql.append("INSERT INTO ");
-        sql.append(table.getName());
-        sql.append("(");
-
-        // specify columns
-        for(int i=0; i<table.numCols(); i++){
-            sql.append(table.getColumn(i).getName());
-            if (i < table.numCols()-1) {
-                sql.append(",");
-            }
-        }
-        sql.append(") VALUES(");
-
-        for (int i=0; i<values.size(); i++){
-        }
         return sql.toString();
     }
 }

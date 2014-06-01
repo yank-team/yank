@@ -20,6 +20,8 @@ public class YankORMHelper extends SQLiteOpenHelper {
     public static final String DB_NAME  = "yank.db";
     private static final int DB_VERSION = 1;
 
+    private static final String PK_ATTRS = "PRIMARY KEY AUTOINCREMENT";
+
     // tables proper
     private SQLTable mTableEntity;
     private SQLTable mTableNote;
@@ -34,7 +36,7 @@ public class YankORMHelper extends SQLiteOpenHelper {
 
         // Entity table
         SQLColumn[] entityCols = {
-            new SQLColumn("id", SQLColumn.TYPE_INTEGER, "primary key autoincrement"),
+            new SQLColumn("id", SQLColumn.TYPE_INTEGER, PK_ATTRS),
             new SQLColumn("name", SQLColumn.TYPE_VARCHAR, ""),
             new SQLColumn("lat" , SQLColumn.TYPE_FLOAT  , ""),
             new SQLColumn("lng" , SQLColumn.TYPE_FLOAT  , "")
@@ -43,7 +45,7 @@ public class YankORMHelper extends SQLiteOpenHelper {
 
         // Note table
         SQLColumn[] noteCols = {
-            new SQLColumn("id", SQLColumn.TYPE_INTEGER, "primary key autoincrement"),
+            new SQLColumn("id", SQLColumn.TYPE_INTEGER, PK_ATTRS),
             new SQLColumn("name", SQLColumn.TYPE_VARCHAR, ""),
             new SQLColumn("lat" , SQLColumn.TYPE_FLOAT  , ""),
             new SQLColumn("lng" , SQLColumn.TYPE_FLOAT  , "")
@@ -52,7 +54,7 @@ public class YankORMHelper extends SQLiteOpenHelper {
 
         // User table
         SQLColumn[] userCols = {
-            new SQLColumn("id", SQLColumn.TYPE_INTEGER, "primary key autoincrement"),
+            new SQLColumn("id", SQLColumn.TYPE_INTEGER, PK_ATTRS),
             new SQLColumn("owner"  , SQLColumn.TYPE_INTEGER, ""),
             new SQLColumn("target" , SQLColumn.TYPE_INTEGER, ""),
             new SQLColumn("content", SQLColumn.TYPE_VARCHAR, "")

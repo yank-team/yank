@@ -48,8 +48,11 @@ public class SQLColumn {
                 return "INTEGER";
             case TYPE_VARCHAR:
                 return "VARCHAR";
+
+            // SQLite uses "REAL" instead of FLOAT... because conventions are for
+            // losers!
             case TYPE_FLOAT:
-                return "FLOAT";
+                return "REAL";
 
             // TODO: throw exception
             default:
