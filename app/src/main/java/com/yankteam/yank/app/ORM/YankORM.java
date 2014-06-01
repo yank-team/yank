@@ -8,6 +8,7 @@ import com.yankteam.yank.app.components.Entity;
 
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.List;
 
 /*
  * Yank Object-Relational Model
@@ -66,7 +67,7 @@ public class YankORM {
         return retList;
     }
 
-    public void insertEntities (ArrayList<Entity> entities) throws SQLException {
+    public void insertEntities (List<Entity> entities) throws SQLException {
         openWritable();
 
         SQLTable tableEntity = helper.getTableEntity();
@@ -97,5 +98,24 @@ public class YankORM {
         }
 
         close();
+    }
+
+    /*
+     * Log contents of database for debug purposes
+     */
+    public String printORM() throws SQLException{
+        openReadable();
+
+        Cursor sqlCursor = db.rawQuery("SELECT * FROM entity;", null);
+        StringBuilder retStr = new StringBuilder();
+
+        sqlCursor.moveToFirst();
+        while (!sqlCursor.isAfterLast()) {
+            retStr.append(sqlCursor.toString());
+            sqlCursor.moveToNext();
+        }
+        sqlCursor.close();
+        close();
+        return retStr.toString();
     }
 }

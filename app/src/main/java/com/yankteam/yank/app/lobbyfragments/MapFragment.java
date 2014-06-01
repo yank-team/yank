@@ -28,6 +28,7 @@ import com.google.android.gms.maps.model.CameraPosition;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.yankteam.yank.app.AppInfo;
+import com.yankteam.yank.app.ORM.YankORM;
 import com.yankteam.yank.app.R;
 import com.yankteam.yank.app.components.Entity;
 
@@ -47,6 +48,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.UnsupportedEncodingException;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -57,6 +59,7 @@ public class MapFragment extends Fragment implements GooglePlayServicesClient.Co
     AppInfo appInfo = AppInfo.getInstance();
     List<Entity> entity_list = new ArrayList<Entity>();
     Entity entity;
+    YankORM orm;
 
 
     private SupportMapFragment mMapFragment;
@@ -104,6 +107,9 @@ public class MapFragment extends Fragment implements GooglePlayServicesClient.Co
             longitude = 0.0;
             latitude = 0.0;
         }
+
+        orm = new YankORM(context);
+
         return view;
     }
 
@@ -285,7 +291,13 @@ public class MapFragment extends Fragment implements GooglePlayServicesClient.Co
                         */
                     }
 
-                    //dump into ORM
+                    try {
+                        orm.insertEntities(entity_list);
+
+                        Log.d(MapFragment.LOG_TAG, "ORM STATUS: " + orm.printORM());
+                    } catch (SQLException e) {
+                        e.printStackTrace();
+                    }
 
                 }else {
                     //shit failed

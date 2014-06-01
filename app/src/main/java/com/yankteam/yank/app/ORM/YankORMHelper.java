@@ -88,7 +88,6 @@ public class YankORMHelper extends SQLiteOpenHelper {
         onCreate(db);
     }
 
-
     // table getters
     public SQLTable getTableEntity () {
         return mTableEntity;
