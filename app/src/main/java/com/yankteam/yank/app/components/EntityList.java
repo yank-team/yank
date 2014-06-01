@@ -23,9 +23,7 @@ public class EntityList extends ArrayAdapter<Entity> {
 
     private final Activity context;
     private final List<Entity> entities;
-
-    Animation animSlideDown = AnimationUtils.loadAnimation(getContext(), R.anim.abc_slide_out_bottom);
-
+    
     // a holder for a list item's view
     static class ViewHolder {
         public ImageView avatar;
@@ -65,7 +63,6 @@ public class EntityList extends ArrayAdapter<Entity> {
 
         // Set values of layout components here
         holder.name.setText(entities.get(pos).getName());
-        holder.desc.setText(entities.get(pos).getDesc());
 
         // set up a click listener
         rowView.setOnLongClickListener(new View.OnLongClickListener() {

@@ -7,34 +7,32 @@ import android.location.Location;
  * the RESTful API.
  */
 public class Entity {
+
+    private int id;
     private String name;
-    private String desc;
 
     private Double lat;
     private Double lng;
 
-    public Entity(String name, String desc) {
-        this(name, 0.0, 0.0);
+    public Entity(int _id, String _name) {
+        this(_id, _name, 0.0, 0.0);
     }
-    public Entity(String name, double lat, double lng) {
-        this.name = name;
-        this.lat  = lat;
-        this.lng  = lng;
+    public Entity(int _id, String _name, double _lat, double _lng) {
+        id   = _id;
+        name = _name;
+        lat  = _lat;
+        lng  = _lng;
     }
 
     // getters and setters
+    public int getId(){
+        return id;
+    }
     public String getName() {
         return name;
     }
     public void setName(String name) {
         this.name = name;
-    }
-
-    public String getDesc(){
-        return desc;
-    }
-    public void setDesc(String desc) {
-        this.desc = desc;
     }
 
     public double getLat(){
@@ -43,8 +41,8 @@ public class Entity {
     public double getLng(){
         return lng;
     }
-    public void setPos(double lat, double lng) {
-        this.lat = lat;
-        this.lng = lng;
+    public void setPos(double _lat, double _lng) {
+        lat = _lat;
+        lng = _lng;
     }
 }
