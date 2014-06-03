@@ -1,21 +1,17 @@
 package com.yankteam.yank.app.ORM;
 
-import android.content.ContentValues;
 import android.content.Context;
-import android.content.Intent;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.AsyncTask;
 
-import com.yankteam.yank.app.AppInfo;
 import com.yankteam.yank.app.R;
 import com.yankteam.yank.app.components.Entity;
-import com.yankteam.yank.app.models.ModelEntity;
-import com.yankteam.yank.app.models.ModelSQL;
+import com.yankteam.yank.app.ORM.models.ModelEntity;
+import com.yankteam.yank.app.ORM.models.ModelSQL;
 
 import org.apache.http.HttpResponse;
 import org.apache.http.client.ClientProtocolException;
-import org.apache.http.client.methods.HttpGet;
 import org.apache.http.client.methods.HttpPost;
 import org.apache.http.entity.StringEntity;
 import org.apache.http.impl.client.DefaultHttpClient;
@@ -30,12 +26,10 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.UnsupportedEncodingException;
-import java.lang.reflect.Array;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
-import java.util.List;
 
 /*
  * Yank Object-Relational Model

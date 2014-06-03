@@ -4,11 +4,9 @@ import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
-import com.yankteam.yank.app.models.ModelEntity;
-import com.yankteam.yank.app.models.ModelNote;
-import com.yankteam.yank.app.models.ModelUser;
-
-import java.util.HashMap;
+import com.yankteam.yank.app.ORM.models.ModelEntity;
+import com.yankteam.yank.app.ORM.models.ModelNote;
+import com.yankteam.yank.app.ORM.models.ModelUser;
 
 /*
  * Yank ORM Helper

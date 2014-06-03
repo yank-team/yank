@@ -1,4 +1,4 @@
-package com.yankteam.yank.app.models;
+package com.yankteam.yank.app.ORM.models;
 
 /*
  * data types for SQL models. We use this to make

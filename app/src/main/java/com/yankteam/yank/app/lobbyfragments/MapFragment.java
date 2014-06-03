@@ -291,13 +291,6 @@ public class MapFragment extends Fragment implements GooglePlayServicesClient.Co
                         */
                     }
 
-                    try {
-                        orm.insertEntities(entity_list);
-
-                        Log.d(MapFragment.LOG_TAG, "ORM STATUS: " + orm.printORM());
-                    } catch (SQLException e) {
-                        e.printStackTrace();
-                    }
 
                 }else {
                     //shit failed
