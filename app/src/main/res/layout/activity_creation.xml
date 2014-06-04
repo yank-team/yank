@@ -16,6 +16,7 @@
             android:layout_width="115dp"
             android:layout_height="115dp"
             android:layout_margin="10dp"
+            android:scaleType="fitXY"
             android:background="@drawable/ml_edittext"
 
             />

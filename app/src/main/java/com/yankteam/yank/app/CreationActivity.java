@@ -224,6 +224,7 @@ public class CreationActivity extends ActionBarActivity {
                     e.printStackTrace();
                 }
                 image_view.setImageBitmap(photo);
+
                 //image_view.setImageURI(uri_cam);
                 break;
         }
