@@ -5,6 +5,7 @@ import android.content.ActivityNotFoundException;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -37,6 +38,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.UnsupportedEncodingException;
+import java.net.URI;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
@@ -63,7 +65,7 @@ public class CreationActivity extends ActionBarActivity {
     private static final int CAMERA_WITH_DATA = 3023;
     private static final int PHOTO_PICKED_WITH_DATA = 3021;
 
-    private File mCurrentPhotoFile; // picture captured from camera
+    private File mCurrentPhotoFile = null; // picture captured from camera
     // path to store the picture
     private static final File PHOTO_DIR = new File(Environment.getExternalStorageDirectory() + "/ASoohue/CameraCache");
 
@@ -101,6 +103,13 @@ public class CreationActivity extends ActionBarActivity {
 
             }
         });
+    }
+
+    @Override
+    protected void onResume(){
+        super.onResume();
+        if (mCurrentPhotoFile == null)
+            mCurrentPhotoFile = appInfo.myImageFile;
     }
 
     // helper functions for the camera and album pick
@@ -151,6 +160,7 @@ public class CreationActivity extends ActionBarActivity {
             }
             FileName = System.currentTimeMillis() + ".jpg";
             mCurrentPhotoFile = new File(PHOTO_DIR, FileName);
+            appInfo.myImageFile = mCurrentPhotoFile;
             final Intent intent = getTakePickIntent(mCurrentPhotoFile);
             startActivityForResult(intent, CAMERA_WITH_DATA);
         } catch (ActivityNotFoundException e) {
@@ -206,6 +216,15 @@ public class CreationActivity extends ActionBarActivity {
                 image_view.setImageURI(uri);
                 break;
             case CAMERA_WITH_DATA:
+                //Uri uri_cam = data.getData();
+                Bitmap photo = null;
+                try {
+                    photo = MediaStore.Images.Media.getBitmap(getContentResolver(), Uri.fromFile(mCurrentPhotoFile));
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+                image_view.setImageBitmap(photo);
+                //image_view.setImageURI(uri_cam);
                 break;
         }
     }

@@ -1,5 +1,7 @@
 package com.yankteam.yank.app;
 
+import java.io.File;
+
 /*
  * Singleton appinfo class
  */
@@ -7,6 +9,7 @@ public class AppInfo {
     public String api_key;
     public Double my_lat;
     public Double my_lng;
+    public File myImageFile;
 
     public static AppInfo appInfo = null;
 

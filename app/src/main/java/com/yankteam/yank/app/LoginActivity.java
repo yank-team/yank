@@ -1,6 +1,8 @@
 package com.yankteam.yank.app;
 
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.AsyncTask;
@@ -108,7 +110,7 @@ public class LoginActivity extends ActionBarActivity {
         @Override
         protected String doInBackground(String... args) {
             DefaultHttpClient httpClient = new DefaultHttpClient();
-            HttpPost postReq = new HttpPost(getString(R.string.jheron_api) + "auth/login/");
+            HttpPost postReq = new HttpPost("http://jheron.io/auth/login/");
             HttpResponse response;
 
             // Set up a JSON request body
@@ -154,6 +156,17 @@ public class LoginActivity extends ActionBarActivity {
                 e.printStackTrace();
             } catch (IOException e) {
                 // TODO: I/O exception
+                final AlertDialog.Builder builder = new AlertDialog.Builder(LoginActivity.this);
+                builder.setTitle("Connection failed").setMessage("Please check your connection")
+                        .setPositiveButton(R.string.ok_btn, new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int id) {
+                                // cancel the dialog
+                                dialog.dismiss();
+                            }
+                        });
+
+                //builder.create();
+                builder.show();
                 e.printStackTrace();
             }
 
