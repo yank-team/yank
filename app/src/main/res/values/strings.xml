@@ -3,9 +3,7 @@
 
     <!-- branding -->
     <string name="app_name">Yank</string>
-    <string name="tagline">
-        Save Your Surroundings
-    </string>
+    <string name="tagline">        Save Your Surroundings</string>
 
     <!-- login screen -->
     <string name="username">Username</string>
@@ -22,17 +20,27 @@
 
     <!-- messages -->
     <string name="str_no_saved_yanks">no saved yanks</string>
-    <string name="str_msg_no_saved_yanks">
-        When you annotate or favorite a post, its entity will appear here.
-    </string>
+    <string name="str_msg_no_saved_yanks">        When you annotate or favorite a post, its entity will appear here.</string>
 
     <!-- API URL -->
     <string name="jheron_api">http://jheron.io/</string>
-
-
     <string name="take_photo">Take a picture</string>
-    <string name="pick_photo">Choose a picture from album</string>
+    <string name="pick_photo">Choose a picture</string>
     <string name="attachToContact">Make a Yank</string>
     <string name="photoPickerNotFoundText">No pictures found</string>
+    <string name="title_activity_signup">SignupActivity</string>
+    <string name="hello_world">Hello world!</string>
+
+
+    <!-- sign up activity -->
+
+    <string name="userid">User ID</string>
+    <string name="passwd">Pass Word</string>
+    <string name="confirm">Confirm Password</string>
+    <string name="submit">Submit</string>
+    <string name="dialog_signup_failure">Sign up failed!</string>
+    <string name="failed_response">Please try again</string>
+    <string name="ok_btn">OK</string>
+
 
 </resources>
