@@ -7,6 +7,8 @@ import java.io.File;
  */
 public class AppInfo {
     public String api_key;
+
+    public Boolean locationSet = false;
     public Double my_lat;
     public Double my_lng;
     public File myImageFile;

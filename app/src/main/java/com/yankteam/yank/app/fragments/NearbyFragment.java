@@ -1,6 +1,6 @@
-package com.yankteam.yank.app.lobbyfragments;
+package com.yankteam.yank.app.fragments;
 
-import android.content.IntentSender;
+import android.content.Context;
 import android.os.AsyncTask;
 import android.support.v4.app.Fragment;
 import android.util.Log;
@@ -8,8 +8,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.os.Bundle;
-import android.widget.AdapterView;
-import android.widget.LinearLayout;
+import android.widget.Button;
 import android.widget.ListView;
 
 import com.yankteam.yank.app.AppInfo;
@@ -35,9 +34,7 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Vector;
 
 /*
  * NearbyFragment
@@ -47,10 +44,7 @@ public class NearbyFragment extends Fragment {
     public static final String LOG_TAG = "NearbyFragment";
 
     AppInfo appInfo = AppInfo.getInstance();
-    String api_key = appInfo.api_key;
     List <Entity> entity_list = new ArrayList<Entity>();
-    Entity entity;
-    ListView mEntityList;
     View view;
 
     @Override
@@ -59,62 +53,95 @@ public class NearbyFragment extends Fragment {
             return null;
 
         //give lat an lng
-        new GetNearEntitiesTask().execute(appInfo.my_lat, appInfo.my_lng);
+        new ProxSearchTask().execute(appInfo.my_lat, appInfo.my_lng);
         view = inflater.inflate(R.layout.fragment_lobby_nearby, container, false);
+
+        ListView mEntityList = (ListView) view.findViewById(R.id.list_nearby_entities);
+        mEntityList.setAdapter(new EntityList(getActivity(), entity_list));
+
         return view;
     }
 
-    private class GetNearEntitiesTask extends AsyncTask<Double, Void, String> {
+    public void onRefresh() {
+        new ProxSearchTask().execute(appInfo.my_lat, appInfo.my_lng);
+    }
+
+    private class ProxSearchTask extends AsyncTask<Double, Void, String> {
+
+        public static final String LOG_TAG = "ProxSearchTask";
+
+        private String url;
+
+        public ProxSearchTask () {
+            url = getString(R.string.jheron_api) + "entity/radius/";
+        }
+
+        private JSONObject asmReqBody(Double lat, Double lng) {
+            JSONObject obj = new JSONObject();
+            try {
+                obj.put("lat", lat);
+                obj.put("lng", lng);
+                obj.put("radius", 5000);
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+            return obj;
+        }
+
+        private HttpPost asmPostReq(Double lat, Double lng){
+            HttpPost req    = new HttpPost(url);
+            JSONObject body = asmReqBody(lat, lng);
+            StringEntity entity = null;
+            try {
+                entity = new StringEntity(body.toString());
+                entity.setContentType(new BasicHeader(HTTP.CONTENT_TYPE, "application/json"));
+                req.setEntity(entity);
+            } catch (UnsupportedEncodingException e) {
+                e.printStackTrace();
+            }
+            return req;
+        }
+
         @Override
-        protected String doInBackground(Double... args) {
+        protected String doInBackground(Double... params) {
             DefaultHttpClient httpClient = new DefaultHttpClient();
-            HttpGet getReq = new HttpGet(getString(R.string.jheron_api) + "/entity/");
+            HttpPost req = asmPostReq(params[0], params[1]);
             HttpResponse response = null;
 
             // Set up a JSON request body
             JSONObject json = new JSONObject();
             try {
                 // Send request
-                response = httpClient.execute(getReq);
+                response = httpClient.execute(req);
 
                 // Pull apart the request with an input stream
                 if (response != null){
-                    // set up Java's bullshit
                     InputStream in = response.getEntity().getContent();
                     BufferedReader reader = new BufferedReader(new InputStreamReader(in));
                     StringBuilder builder = new StringBuilder();
-
-                    // Let Java do some bullshit
                     String line = "";
                     while ((line = reader.readLine()) != null) {
                         builder.append(line);
                     }
-
-                    // return Java's bullshit
                     return builder.toString();
                 }
-            } catch (UnsupportedEncodingException e) {
-                e.printStackTrace();
-                // TODO: String entity exception
             } catch (ClientProtocolException e) {
-                // TODO: incorrect protocol exception
                 e.printStackTrace();
             } catch (IOException e) {
-                // TODO: I/O exception
                 e.printStackTrace();
             }
-
-            // Return null if failure occurs
             return null;
         }
 
-        @Override
         protected void onPostExecute(String s) {
             super.onPostExecute(s);
+            ArrayList<Entity> entityList = new ArrayList<Entity>();
+
+            Log.d(LOG_TAG, s);
+
             try {
-                Log.d(NearbyFragment.LOG_TAG, "fragment pull json: " + s);
                 JSONObject mainObject = new JSONObject(s);
-                Log.d(NearbyFragment.LOG_TAG, s);
+
                 Boolean success_response = mainObject.getBoolean("success");
                 String msg_response = mainObject.getString("msg");
                 JSONArray data_response = mainObject.getJSONArray("data");
@@ -126,23 +153,19 @@ public class NearbyFragment extends Fragment {
                         double lat = object.getDouble("lat");
                         double lng = object.getDouble("lng");
                         String name = object.getString("name");
-                        entity = new Entity(0, name, lat, lng);
-                        entity_list.add(entity);
+                        Entity tmpEntity = new Entity(0, name, lat, lng);
+                        entityList.add(tmpEntity);
                     }
-                    mEntityList = (ListView) view.findViewById(R.id.list_nearby_entities);
-                    mEntityList.setAdapter(new EntityList(getActivity(), entity_list));
-                    Log.d(NearbyFragment.LOG_TAG, msg_response);
-                }else {
-                    //shit failed
-                    Log.d(NearbyFragment.LOG_TAG, "fragment pull failed: likely user");
-                    Log.d(NearbyFragment.LOG_TAG, msg_response);
-
-                    //toast user, bad login
                 }
+
+                // TODO: don't make a whole new adapter for this.
+                ListView mEntityList = (ListView) view.findViewById(R.id.list_nearby_entities);
+                mEntityList.setAdapter(new EntityList(getActivity(), entityList));
+
             } catch (JSONException e) {
                 //ask user to retry login
                 e.printStackTrace();
-                Log.d(NearbyFragment.LOG_TAG, "fragment pull failed: likely at server");
+                // Log.d(NearbyFragment.LOG_TAG, "fragment pull failed: likely at server");
             }
         }
     }

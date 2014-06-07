@@ -245,8 +245,8 @@ public class CreationActivity extends ActionBarActivity {
                 json.put("apik", api_key);
                 json.put("name", args[0]);
                 json.put("content", args[1]);
-                json.put("lat", 0);
-                json.put("lng", 0);
+                json.put("lat", appInfo.my_lat);
+                json.put("lng", appInfo.my_lng);
 
                 // Assemble request
                 Log.d(CreationActivity.LOG_TAG, "entity creation: json creation: " + json.toString());

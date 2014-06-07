@@ -29,6 +29,8 @@ import java.io.UnsupportedEncodingException;
  */
 public class LoginTask extends AsyncTask<String, Void, String> {
 
+    public static final String LOG_TOKEN = "LoginTask";
+
     Context context;
 
     public LoginTask(Context _context) {
@@ -100,6 +102,8 @@ public class LoginTask extends AsyncTask<String, Void, String> {
 
     protected void onPostExecute(String s) {
         super.onPostExecute(s);
+
+        Log.d(LOG_TOKEN, s);
         try {
             JSONObject mainObject    = new JSONObject(s);
             Boolean success_response = mainObject.getBoolean("success");

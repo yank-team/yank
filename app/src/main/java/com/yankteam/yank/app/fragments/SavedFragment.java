@@ -1,4 +1,4 @@
-package com.yankteam.yank.app.lobbyfragments;
+package com.yankteam.yank.app.fragments;
 
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;

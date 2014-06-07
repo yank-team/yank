@@ -1,10 +1,8 @@
-package com.yankteam.yank.app.lobbyfragments;
+package com.yankteam.yank.app.fragments;
 
 import android.content.Context;
-import android.content.Intent;
 import android.location.Location;
 import android.location.LocationManager;
-import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -26,6 +24,7 @@ import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.CameraPosition;
 import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.yankteam.yank.app.AppInfo;
 import com.yankteam.yank.app.ORM.YankORM;
@@ -48,7 +47,6 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.UnsupportedEncodingException;
-import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -57,10 +55,8 @@ public class MapFragment extends Fragment implements GooglePlayServicesClient.Co
 
     public static final String LOG_TAG = "MapFragment";
     AppInfo appInfo = AppInfo.getInstance();
-    List<Entity> entity_list = new ArrayList<Entity>();
     Entity entity;
     YankORM orm;
-
 
     private SupportMapFragment mMapFragment;
     private GoogleMap mMap;
@@ -108,8 +104,6 @@ public class MapFragment extends Fragment implements GooglePlayServicesClient.Co
             latitude = 0.0;
         }
 
-        orm = new YankORM(context);
-
         return view;
     }
 
@@ -152,9 +146,6 @@ public class MapFragment extends Fragment implements GooglePlayServicesClient.Co
 
         // connect to location services
         mLocationClient.connect();
-
-        // TODO: implement map on-change listener
-
     }
 
     @Override
@@ -220,8 +211,6 @@ public class MapFragment extends Fragment implements GooglePlayServicesClient.Co
                 entity.setContentType(new BasicHeader(HTTP.CONTENT_TYPE, "application/json"));
                 postReq.setEntity(entity);
 
-
-
                 // Send request
                 response = httpClient.execute(postReq);
 
@@ -269,46 +258,27 @@ public class MapFragment extends Fragment implements GooglePlayServicesClient.Co
                 Boolean success_response = mainObject.getBoolean("success");
                 String msg_response = mainObject.getString("msg");
                 JSONArray data_response = mainObject.getJSONArray("data");
-
                 if(success_response){
-                    //ORM STUFF
+                    // Clear the map
+                    mMap.clear();
                     for(int n = 0; n < data_response.length(); n++){
                         JSONObject object = data_response.getJSONObject(n);
-                        Log.d(MapFragment.LOG_TAG, "Found: " + object.toString());
-                        int eid = object.getInt("eid");
-                        double lat = object.getDouble("lat");
-                        double lng = object.getDouble("lng");
+
+                        int eid     = object.getInt("eid");
+                        double lat  = object.getDouble("lat");
+                        double lng  = object.getDouble("lng");
                         String name = object.getString("name");
-                        entity = new Entity(eid, name, lat, lng);
-                        entity_list.add(entity);
-                        //puts pin in google maps not in yank, maybe reusable
-                        /*
-                        Uri uri = Uri.parse("geo:" + object.getDouble("lat") + "," + object.getDouble("lng")+
-                                "?z=14&q=" + object.getDouble("lat") + "," + object.getDouble("lng") + "(" +
-                                object.getString("name").replace(" ", "+")  +")");
-                        Intent intent = new Intent(Intent.ACTION_VIEW, uri);
-                        startActivity(intent);
-                        */
+
+                        mMap.addMarker(new MarkerOptions()
+                                .position(new LatLng(object.getDouble("lat"), object.getDouble("lng")))
+                                .title(object.getString("name")));
                     }
-
-
-                }else {
-                    //shit failed
-                    Log.d(MapFragment.LOG_TAG, "map failed: likely user");
-                    Log.d(MapFragment.LOG_TAG, msg_response);
                 }
-
-
-
             } catch (JSONException e) {
                 //ask user to retry login
                 e.printStackTrace();
                 Log.d(MapFragment.LOG_TAG, "map failed: likely at server");
-
             }
-
-            // TODO: UI THREAD STUFF
-            // Log.d(LoginActivity.LOG_TAG, s);
         }
     }
 

@@ -1,5 +1,9 @@
 package com.yankteam.yank.app;
+import android.content.Context;
 import android.content.Intent;
+import android.location.Location;
+import android.location.LocationListener;
+import android.location.LocationManager;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -10,20 +14,34 @@ import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarActivity;
 import android.util.Log;
 import android.view.Menu;
-import android.view.MenuInflater;
 import android.view.MenuItem;
-
-import com.yankteam.yank.app.lobbyfragments.MapFragment;
-import com.yankteam.yank.app.lobbyfragments.NearbyFragment;
-import com.yankteam.yank.app.lobbyfragments.SavedFragment;
-
+import android.widget.Toast;
+import com.yankteam.yank.app.components.Entity;
+import com.yankteam.yank.app.fragments.MapFragment;
+import com.yankteam.yank.app.fragments.NearbyFragment;
+import com.yankteam.yank.app.fragments.SavedFragment;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Vector;
 
-public class LobbyActivity extends ActionBarActivity implements ActionBar.TabListener {
+public class LobbyActivity extends ActionBarActivity
+        implements ActionBar.TabListener, LocationListener {
+
+    // some constants
+    public final static String LOG_TAG              = "LobbyActivity";
+    public static final int OUT_OF_SERVICE          = 0;
+    public static final int TEMPORARILY_UNAVAILABLE = 1;
+    public static final int AVAILABLE               = 2;
+
+    private List<Fragment> fragments;
     private SectionsPagerAdapter mSectionsPagerAdapter;
     private ViewPager mViewPager;
+    private Boolean locationSet;
+
+    // Location manager
+    // Double my_lat, my_lng;
     AppInfo appInfo;
+    LocationManager locationMgmt;
 
     // Fragment manager
     public static FragmentManager fragmentManager;
@@ -33,19 +51,25 @@ public class LobbyActivity extends ActionBarActivity implements ActionBar.TabLis
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_lobby);
 
+        appInfo = AppInfo.getInstance();
+
+        // Retrieve location manager
+        locationSet  = false;
+        locationMgmt = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
+        locationMgmt.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 3000, 5, this);
+
         // set up the action bar
         final ActionBar actionBar = getSupportActionBar();
         actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_TABS);
         actionBar.setDisplayShowTitleEnabled(false);
         actionBar.setDisplayShowHomeEnabled(false);
 
-
         // set up the view pager
         initializePager();
         mViewPager.setOnPageChangeListener(new ViewPager.SimpleOnPageChangeListener(){
             @Override
             public void onPageSelected(int position) {
-                actionBar.setSelectedNavigationItem(position);
+            actionBar.setSelectedNavigationItem(position);
             }
         });
 
@@ -93,11 +117,10 @@ public class LobbyActivity extends ActionBarActivity implements ActionBar.TabLis
 
     private void initializePager() {
         // create a list to hold fragments
-        List<Fragment> fragments = new Vector<Fragment>();
+        fragments = new Vector<Fragment>();
         fragments.add(Fragment.instantiate(this, MapFragment.class.getName()));
         fragments.add(Fragment.instantiate(this, NearbyFragment.class.getName()));
         fragments.add(Fragment.instantiate(this, SavedFragment.class.getName()));
-
 
         mSectionsPagerAdapter = new SectionsPagerAdapter(getSupportFragmentManager(), fragments);
         mViewPager = (ViewPager) findViewById(R.id.lobby_pager);
@@ -116,6 +139,37 @@ public class LobbyActivity extends ActionBarActivity implements ActionBar.TabLis
     public void onTabUnselected(ActionBar.Tab tab, FragmentTransaction ft) {}
     @Override
     public void onTabReselected(ActionBar.Tab tab, FragmentTransaction ft) {}
+    @Override
+    public void onLocationChanged(Location location) {
+        // set location if this is the first time
+        if (!locationSet) {
+            appInfo.my_lat = location.getLatitude();
+            appInfo.my_lng = location.getLongitude();
+            locationSet = true;
+        }
+
+        Log.d(LOG_TAG, location.toString());
+        updateNearbyYanks();
+    }
+
+    @Override
+    public void onStatusChanged(String provider, int status, Bundle extras) {
+        Log.d(LOG_TAG, provider + " " + status);
+    }
+
+    @Override
+    public void onProviderEnabled(String provider) {
+    }
+
+    @Override
+    public void onProviderDisabled(String provider) {
+    }
+
+    private void updateNearbyYanks(){
+        // assuming 1 is the nearby list (THIS IS A HACK. WE NEED TO IMPROVE THIS)
+        NearbyFragment frag = (NearbyFragment) fragments.get(1);
+        frag.onRefresh();
+    }
 
     // the pager adapter
     public class SectionsPagerAdapter extends FragmentPagerAdapter {
@@ -156,6 +210,7 @@ public class LobbyActivity extends ActionBarActivity implements ActionBar.TabLis
     @Override
     public void onBackPressed(){
         // nothing yet...
+        moveTaskToBack(true);
     }
 
     private void gotoCreation() {
