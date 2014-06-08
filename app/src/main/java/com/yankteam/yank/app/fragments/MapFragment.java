@@ -2,6 +2,7 @@ package com.yankteam.yank.app.fragments;
 
 import android.content.Context;
 import android.content.Intent;
+import android.location.Criteria;
 import android.location.Location;
 import android.location.LocationManager;
 import android.os.AsyncTask;
@@ -93,9 +94,10 @@ public class MapFragment extends Fragment implements GooglePlayServicesClient.Co
 
         View view = inflater.inflate(R.layout.fragment_lobby_map, container, false);
         Context context = view.getContext();
-
+        Criteria criteria = new Criteria();
         lm = (LocationManager)context.getSystemService(context.LOCATION_SERVICE);
-        location = lm.getLastKnownLocation(LocationManager.GPS_PROVIDER);
+        String provider = lm.getBestProvider(criteria, true);
+        location = lm.getLastKnownLocation(provider);
         if (location != null) {
             longitude = location.getLongitude();
             latitude = location.getLatitude();

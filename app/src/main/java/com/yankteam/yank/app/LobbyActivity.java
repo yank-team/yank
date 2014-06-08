@@ -56,7 +56,8 @@ public class LobbyActivity extends ActionBarActivity
         // Retrieve location manager
         locationSet  = false;
         locationMgmt = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
-        locationMgmt.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 3000, 5, this);
+        locationMgmt.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 0, this);
+        locationMgmt.getLastKnownLocation(LocationManager.GPS_PROVIDER);
 
         // set up the action bar
         final ActionBar actionBar = getSupportActionBar();
@@ -146,9 +147,9 @@ public class LobbyActivity extends ActionBarActivity
             appInfo.my_lat = location.getLatitude();
             appInfo.my_lng = location.getLongitude();
             locationSet = true;
-        }
 
-        Log.d(LOG_TAG, location.toString());
+        }
+        Log.d(LOG_TAG, "location is " + location.toString());
         updateNearbyYanks();
     }
 
