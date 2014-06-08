@@ -1,6 +1,7 @@
 package com.yankteam.yank.app;
 import android.content.Context;
 import android.content.Intent;
+import android.location.Criteria;
 import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
@@ -55,15 +56,19 @@ public class LobbyActivity extends ActionBarActivity
 
         // Retrieve location manager
         locationSet  = false;
+        Criteria criteria = new Criteria();
         locationMgmt = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
-        locationMgmt.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 0, this);
-        locationMgmt.getLastKnownLocation(LocationManager.GPS_PROVIDER);
+        String provider = locationMgmt.getBestProvider(criteria, true);
+        locationMgmt.requestLocationUpdates(provider, 1, 1, this);
+        Location location = locationMgmt.getLastKnownLocation(provider);
+        storeLocation(location);
 
         // set up the action bar
         final ActionBar actionBar = getSupportActionBar();
         actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_TABS);
         actionBar.setDisplayShowTitleEnabled(false);
         actionBar.setDisplayShowHomeEnabled(false);
+        Log.d(LOG_TAG,"Map created");
 
         // set up the view pager
         initializePager();
@@ -138,19 +143,37 @@ public class LobbyActivity extends ActionBarActivity
     // stubs necessitated by implementing TabListener
     @Override
     public void onTabUnselected(ActionBar.Tab tab, FragmentTransaction ft) {}
+
     @Override
     public void onTabReselected(ActionBar.Tab tab, FragmentTransaction ft) {}
+
     @Override
     public void onLocationChanged(Location location) {
         // set location if this is the first time
+        Log.d(LobbyActivity.LOG_TAG, "location is " + location.toString());
         if (!locationSet) {
             appInfo.my_lat = location.getLatitude();
             appInfo.my_lng = location.getLongitude();
             locationSet = true;
 
         }
-        Log.d(LOG_TAG, "location is " + location.toString());
-        updateNearbyYanks();
+        //updateNearbyYanks();
+    }
+
+    public void storeLocation(Location location){
+
+        Log.d(LobbyActivity.LOG_TAG, "location is " + location.toString());
+        if(location != null) {
+            appInfo.my_lat = location.getLatitude();
+            appInfo.my_lng = location.getLongitude();
+          //  updateNearbyYanks();
+        }
+        else
+        {
+            appInfo.my_lat = 0.0;
+            appInfo.my_lng = 0.0;
+            Log.d(LobbyActivity.LOG_TAG, "location is shitting itself");
+        }
     }
 
     @Override
