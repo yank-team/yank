@@ -139,7 +139,6 @@ public class NearbyFragment extends Fragment {
                 return;
             }
 
-
             ArrayList<Entity> entityList = new ArrayList<Entity>();
             try {
                 JSONObject mainObject = new JSONObject(s);
@@ -152,10 +151,11 @@ public class NearbyFragment extends Fragment {
                     for(int n = 0; n < data_response.length(); n++){
                         JSONObject object = data_response.getJSONObject(n);
 
+                        int eid = object.getInt("eid");
                         double lat = object.getDouble("lat");
                         double lng = object.getDouble("lng");
                         String name = object.getString("name");
-                        Entity tmpEntity = new Entity(0, name, lat, lng);
+                        Entity tmpEntity = new Entity(eid, name, lat, lng);
                         entityList.add(tmpEntity);
                     }
                 }

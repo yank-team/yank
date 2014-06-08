@@ -3,6 +3,7 @@ package com.yankteam.yank.app;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
+import android.util.Log;
 import android.widget.ListView;
 
 import com.yankteam.yank.app.components.Note;
@@ -30,14 +31,22 @@ public class EntityProfileActivity extends ActionBarActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_entity_profile);
-        eid = savedInstanceState.getInt("EID");
+        eid   = getIntent().getExtras().getInt("EID");
+        notes = new ArrayList<Note>();
 
         // Launch async task
+        new GetNotesTask().execute(eid);
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        notes = new ArrayList<Note>();
     }
 
     public void resetAdapter() {
         ListView noteList = (ListView) findViewById(R.id.list_entity_notes);
-        noteList.setAdapter(new NoteList(this,notes));
+        noteList.setAdapter(new NoteList(this, notes));
     }
 
     private class GetNotesTask extends AsyncTask<Integer, String, String> {
@@ -45,7 +54,7 @@ public class EntityProfileActivity extends ActionBarActivity {
         @Override
         protected String doInBackground(Integer... params) {
             DefaultHttpClient httpClient = new DefaultHttpClient();
-            HttpGet req = new HttpGet(getString(R.string.jheron_api) + "entity/note/" + eid);
+            HttpGet req = new HttpGet(getString(R.string.jheron_api) + "entity/note/" + eid + "/");
             try {
                 HttpResponse response = httpClient.execute(req);
                 // Pull apart the request with an input stream
@@ -75,21 +84,22 @@ public class EntityProfileActivity extends ActionBarActivity {
             super.onPostExecute(s);
             if (s == null) { return; }
 
+            Log.d("ENTITY", s);
+
             try {
                 JSONObject json = new JSONObject(s);
                 Boolean success = json.getBoolean("success");
                 JSONArray data_response = json.getJSONArray("data");
 
                 if (success) {
-                    JSONObject tmp;
+                    JSONObject tmp = null;
 
-                    notes.clear();
                     for (int i=0; i<data_response.length(); i++) {
                         tmp = data_response.getJSONObject(i);
 
                         notes.add(new Note(
                             tmp.getInt("id"),
-                            tmp.getInt("owner"),
+                            tmp.getString("owner"),
                             tmp.getString("content")
                         ));
                     }

@@ -2,6 +2,7 @@ package com.yankteam.yank.app.components;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -40,8 +41,8 @@ public class EntityList extends ArrayAdapter<Entity> {
     }
 
     @Override
-    public View getView (int pos, View convertView, ViewGroup parent) {
-
+    public View getView (final int pos, View convertView, ViewGroup parent) {
+        final int position = pos;
         View rowView = convertView;
 
         // check for existing view
@@ -67,7 +68,10 @@ public class EntityList extends ArrayAdapter<Entity> {
         rowView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                Log.d("EntityList", ""+getItem(position).getId());
+
                 Intent intent = new Intent(context, EntityProfileActivity.class);
+                intent.putExtra("EID", getItem(position).getId());
                 context.startActivity(intent);
             }
         });
