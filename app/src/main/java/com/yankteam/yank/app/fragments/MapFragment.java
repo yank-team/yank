@@ -98,16 +98,7 @@ public class MapFragment extends Fragment implements GooglePlayServicesClient.Co
         lm = (LocationManager)context.getSystemService(context.LOCATION_SERVICE);
         String provider = lm.getBestProvider(criteria, true);
         location = lm.getLastKnownLocation(provider);
-        if (location != null) {
-            longitude = location.getLongitude();
-            latitude = location.getLatitude();
-            Log.d(MapFragment.LOG_TAG, "found lon: " + longitude + " found lat: " + latitude);
-            new MapPopulateTask().execute(5000.0 , latitude, longitude);
-        } else {
-            longitude = 0.0;
-            latitude = 0.0;
-        }
-
+        new MapPopulateTask().execute(5000.0 , appInfo.my_lat, appInfo.my_lng);
         return view;
     }
 
@@ -286,6 +277,8 @@ public class MapFragment extends Fragment implements GooglePlayServicesClient.Co
                                .position(new LatLng(lat, lng))
                                .title(name));
                        mark.setSnippet(Integer.toString(eid));
+                       Log.d(MapFragment.LOG_TAG, "adding mark: " + name);
+
                     }
                 }
             } catch (JSONException e) {
