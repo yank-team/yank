@@ -238,6 +238,7 @@ public class CreationActivity extends ActionBarActivity {
             HttpPost postReq = new HttpPost(getString(R.string.jheron_api) + "/entity/compound/");
             HttpResponse response = null;
 
+            Log.d(CreationActivity.LOG_TAG, "appInfo: " + appInfo.my_lng + ":" + appInfo.my_lng);
             // Set up a JSON request body
             JSONObject json = new JSONObject();
             try {

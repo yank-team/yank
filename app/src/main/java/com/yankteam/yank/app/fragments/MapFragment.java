@@ -2,6 +2,7 @@ package com.yankteam.yank.app.fragments;
 
 import android.content.Context;
 import android.content.Intent;
+import android.location.Criteria;
 import android.location.Location;
 import android.location.LocationManager;
 import android.os.AsyncTask;
@@ -93,19 +94,11 @@ public class MapFragment extends Fragment implements GooglePlayServicesClient.Co
 
         View view = inflater.inflate(R.layout.fragment_lobby_map, container, false);
         Context context = view.getContext();
-
+        Criteria criteria = new Criteria();
         lm = (LocationManager)context.getSystemService(context.LOCATION_SERVICE);
-        location = lm.getLastKnownLocation(LocationManager.GPS_PROVIDER);
-        if (location != null) {
-            longitude = location.getLongitude();
-            latitude = location.getLatitude();
-            Log.d(MapFragment.LOG_TAG, "found lon: " + longitude + " found lat: " + latitude);
-            new MapPopulateTask().execute(5000.0 , latitude, longitude);
-        } else {
-            longitude = 0.0;
-            latitude = 0.0;
-        }
-
+        String provider = lm.getBestProvider(criteria, true);
+        location = lm.getLastKnownLocation(provider);
+        new MapPopulateTask().execute(5000.0 , appInfo.my_lat, appInfo.my_lng);
         return view;
     }
 
@@ -284,6 +277,8 @@ public class MapFragment extends Fragment implements GooglePlayServicesClient.Co
                                .position(new LatLng(lat, lng))
                                .title(name));
                        mark.setSnippet(Integer.toString(eid));
+                       Log.d(MapFragment.LOG_TAG, "adding mark: " + name);
+
                     }
                 }
             } catch (JSONException e) {
