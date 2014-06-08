@@ -28,7 +28,7 @@ import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.yankteam.yank.app.AppInfo;
-import com.yankteam.yank.app.LobbyActivity;
+import com.yankteam.yank.app.EntityProfileActivity;
 import com.yankteam.yank.app.ORM.YankORM;
 import com.yankteam.yank.app.R;
 import com.yankteam.yank.app.components.Entity;
@@ -292,7 +292,7 @@ public class MapFragment extends Fragment implements GooglePlayServicesClient.Co
     }
 
     private void gotoEntityProfile(int eid) {
-        Intent intent = new Intent(this, EntityProfileActivity.class);
+        Intent intent = new Intent(getActivity(), EntityProfileActivity.class);
         intent.putExtra("eid", eid);
         startActivity(intent);
     }
