@@ -5,35 +5,42 @@
     android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@drawable/fancy_bg"
     >
-
-    <!-- an entity image -->
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="100dp">
+        android:layout_height="150dp">
         <ImageView
+            android:src="@drawable/squiggle_bmp"
+            android:scaleType="centerCrop"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:background="@drawable/entity_avatar"
             />
-        <TextView
-            android:text="Item Name Here"
-            android:layout_width="fill_parent"
-            android:layout_height="fill_parent"
-            android:fontFamily="sans-serif-thin"
-            android:textSize="25sp"
-            android:padding="10dp"
-            android:textColor="#ffffff"
-            android:background="#000"
-            android:alpha="0.55"
-            />
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            android:gravity="bottom"
+            >
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textColor="#ffffff"
+                android:textSize="30sp"
+                android:padding="10dp"
+                android:gravity="right"
+                android:text="Porter Squiggle"
+                />
+
+        </LinearLayout>
+
     </RelativeLayout>
 
-    <!-- The information (when it comes we'll know what we're made from) -->
     <ListView
+        android:id="@+id/list_entity_notes"
         android:layout_width="match_parent"
-        android:layout_height="fill_parent"
-        android:background="@drawable/ab_background_textured_yank"
+        android:layout_height="match_parent"
         >
-    </ListView>
+        </ListView>
 </LinearLayout>
