@@ -1,6 +1,7 @@
 package com.yankteam.yank.app.fragments;
 
 import android.content.Context;
+import android.content.Intent;
 import android.location.Location;
 import android.location.LocationManager;
 import android.os.AsyncTask;
@@ -27,6 +28,7 @@ import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.yankteam.yank.app.AppInfo;
+import com.yankteam.yank.app.LobbyActivity;
 import com.yankteam.yank.app.ORM.YankORM;
 import com.yankteam.yank.app.R;
 import com.yankteam.yank.app.components.Entity;
@@ -51,7 +53,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class MapFragment extends Fragment implements GooglePlayServicesClient.ConnectionCallbacks,
-        GooglePlayServicesClient.OnConnectionFailedListener, LocationListener {
+        GooglePlayServicesClient.OnConnectionFailedListener, LocationListener,
+        com.google.android.gms.maps.GoogleMap.OnMarkerClickListener {
 
     public static final String LOG_TAG = "MapFragment";
     AppInfo appInfo = AppInfo.getInstance();
@@ -103,7 +106,6 @@ public class MapFragment extends Fragment implements GooglePlayServicesClient.Co
             longitude = 0.0;
             latitude = 0.0;
         }
-
         return view;
     }
 
@@ -120,7 +122,7 @@ public class MapFragment extends Fragment implements GooglePlayServicesClient.Co
                     .replace(R.id.lobby_map, mMapFragment)
                     .commit();
         }
-
+        mMap.setOnMarkerClickListener((GoogleMap.OnMarkerClickListener) this);
     }
 
     @Override
@@ -269,9 +271,10 @@ public class MapFragment extends Fragment implements GooglePlayServicesClient.Co
                         double lng  = object.getDouble("lng");
                         String name = object.getString("name");
 
-                        mMap.addMarker(new MarkerOptions()
-                                .position(new LatLng(object.getDouble("lat"), object.getDouble("lng")))
-                                .title(object.getString("name")));
+                       Marker mark = mMap.addMarker(new MarkerOptions()
+                               .position(new LatLng(lat, lng))
+                               .title(name));
+                       mark.setSnippet(Integer.toString(eid));
                     }
                 }
             } catch (JSONException e) {
@@ -282,8 +285,16 @@ public class MapFragment extends Fragment implements GooglePlayServicesClient.Co
         }
     }
 
+    public boolean onMarkerClick(Marker marker) {
+        int eid = Integer.parseInt(marker.getSnippet());
+        gotoEntityProfile(eid);
+        return true;
+    }
 
-
-
+    private void gotoEntityProfile(int eid) {
+        Intent intent = new Intent(this, EntityProfileActivity.class);
+        intent.putExtra("eid", eid);
+        startActivity(intent);
+    }
 
 }
