@@ -53,8 +53,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class MapFragment extends Fragment implements GooglePlayServicesClient.ConnectionCallbacks,
-        GooglePlayServicesClient.OnConnectionFailedListener, LocationListener,
-        com.google.android.gms.maps.GoogleMap.OnMarkerClickListener {
+        GooglePlayServicesClient.OnConnectionFailedListener, LocationListener {
 
     public static final String LOG_TAG = "MapFragment";
     AppInfo appInfo = AppInfo.getInstance();
@@ -106,6 +105,7 @@ public class MapFragment extends Fragment implements GooglePlayServicesClient.Co
             longitude = 0.0;
             latitude = 0.0;
         }
+
         return view;
     }
 
@@ -122,7 +122,6 @@ public class MapFragment extends Fragment implements GooglePlayServicesClient.Co
                     .replace(R.id.lobby_map, mMapFragment)
                     .commit();
         }
-        mMap.setOnMarkerClickListener((GoogleMap.OnMarkerClickListener) this);
     }
 
     @Override
@@ -136,6 +135,16 @@ public class MapFragment extends Fragment implements GooglePlayServicesClient.Co
         mMap.getUiSettings().setRotateGesturesEnabled(true);
         mMap.getUiSettings().setCompassEnabled(true);
 
+        mMap.setOnMarkerClickListener(new GoogleMap.OnMarkerClickListener() {
+            @Override
+            public boolean onMarkerClick(Marker marker) {
+                Log.d(MapFragment.LOG_TAG, "marker clicked: " + marker.getTitle());
+                Log.d(MapFragment.LOG_TAG, "passing eid:" + marker.getSnippet());
+                int eid = Integer.parseInt(marker.getSnippet());
+                gotoEntityProfile(eid);
+                return true;
+            }
+        });
 
         // set up location client
         mLocationClient  = new LocationClient(getActivity(), this, this);
@@ -184,7 +193,7 @@ public class MapFragment extends Fragment implements GooglePlayServicesClient.Co
     private void recenterCamera(){
         CameraPosition cPos = new CameraPosition.Builder()
                 .target(new LatLng(mCurrentLocation.getLatitude(),
-                        mCurrentLocation.getLongitude())).zoom(12).build();
+                        mCurrentLocation.getLongitude())).zoom(20).build();
         mMap.moveCamera(CameraUpdateFactory.newCameraPosition(cPos));
     }
 
@@ -283,12 +292,6 @@ public class MapFragment extends Fragment implements GooglePlayServicesClient.Co
                 Log.d(MapFragment.LOG_TAG, "map failed: likely at server");
             }
         }
-    }
-
-    public boolean onMarkerClick(Marker marker) {
-        int eid = Integer.parseInt(marker.getSnippet());
-        gotoEntityProfile(eid);
-        return true;
     }
 
     private void gotoEntityProfile(int eid) {
