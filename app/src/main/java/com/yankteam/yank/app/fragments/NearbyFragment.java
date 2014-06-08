@@ -135,10 +135,12 @@ public class NearbyFragment extends Fragment {
 
         protected void onPostExecute(String s) {
             super.onPostExecute(s);
+            if (s == null) {
+                return;
+            }
+
+
             ArrayList<Entity> entityList = new ArrayList<Entity>();
-
-            Log.d(LOG_TAG, s);
-
             try {
                 JSONObject mainObject = new JSONObject(s);
 

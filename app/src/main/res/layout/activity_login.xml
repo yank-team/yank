@@ -4,13 +4,6 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     >
-<ProgressBar
-    android:id="@+id/login_indicator"
-    android:layout_width="fill_parent"
-    android:layout_height="fill_parent"
-    style="@android:style/Widget.ProgressBar.Horizontal"
-    android:visibility="gone"
-    />
 
 <LinearLayout
 
@@ -47,26 +40,51 @@
             android:layout_marginBottom="25dp"
             />
 
-        <EditText
-            android:id="@+id/etxt_username"
+        <ProgressBar
+            android:id="@+id/login_indicator"
             android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="25dp"
-            android:hint="@string/username"
-            android:singleLine="true"
-            android:inputType="text|textEmailAddress|textNoSuggestions"
+            android:layout_height="fill_parent"
+            android:padding="10dp"
+            style="?android:attr/progressBarStyleLarge"
+            android:visibility="gone"
             />
 
-        <EditText
-            android:id="@+id/etxt_password"
-            android:layout_width="fill_parent"
+        <LinearLayout
+            android:id="@+id/login_container"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="25dp"
-            android:hint="@string/password"
-            android:singleLine="true"
-            android:password="true"
-            android:inputType="textPassword|textNoSuggestions"
-            />
+            android:orientation="vertical"
+            >
+            <EditText
+                android:id="@+id/etxt_username"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+
+                android:background="@drawable/ml_edittext"
+                android:padding="10dp"
+                android:gravity="top"
+                android:layout_marginBottom="20dp"
+
+                android:hint="@string/username"
+                android:singleLine="true"
+                android:inputType="text|textEmailAddress|textNoSuggestions"
+                />
+            <EditText
+                android:id="@+id/etxt_password"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+
+                android:background="@drawable/ml_edittext"
+                android:padding="10dp"
+                android:gravity="top"
+                android:layout_marginBottom="10dp"
+
+                android:hint="@string/password"
+                android:singleLine="true"
+                android:password="true"
+                android:inputType="textPassword|textNoSuggestions"
+                />
+        </LinearLayout>
     </LinearLayout>
 
     <LinearLayout

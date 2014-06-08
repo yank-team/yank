@@ -5,7 +5,7 @@
     android:orientation="vertical"
     android:layout_width="fill_parent"
     android:layout_height="wrap_content"
-    android:background="#f0f0f0"
+    android:background="@drawable/fancy_bg"
     >
     <ListView
         android:id="@+id/list_nearby_entities"

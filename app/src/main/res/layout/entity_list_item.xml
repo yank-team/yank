@@ -7,7 +7,6 @@
     android:layout_height="wrap_content"
     android:background="#f0f0f0"
     >
-
     <ImageView
         android:id="@+id/img_entity_avatar"
         android:layout_height="98dp"
@@ -31,15 +30,6 @@
             android:paddingTop="10dp"
             android:paddingBottom="10dp"
             android:textSize="20sp"
-            android:fontFamily="sans-serif-light"
-            />
-        <!-- textual information -->
-        <TextView
-            android:id="@+id/str_entity_desc"
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:paddingTop="10dp"
-            android:paddingBottom="10dp"
             android:fontFamily="sans-serif-light"
             />
     </LinearLayout>

@@ -54,7 +54,6 @@ public class EntityList extends ArrayAdapter<Entity> {
             ViewHolder outgoingHolder = new ViewHolder();
             outgoingHolder.avatar     = (ImageView) rowView.findViewById(R.id.img_entity_avatar);
             outgoingHolder.name       = (TextView)  rowView.findViewById(R.id.str_entity_name);
-            outgoingHolder.desc       = (TextView)  rowView.findViewById(R.id.str_entity_desc);
             rowView.setTag(outgoingHolder);
         }
 

@@ -6,7 +6,9 @@
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
     android:paddingBottom="@dimen/activity_vertical_margin"
-    tools:context="com.yankteam.yank.app.SignupActivity">
+    tools:context="com.yankteam.yank.app.SignupActivity"
+    android:background="@drawable/fancy_bg"
+    >
 
 
     <LinearLayout
@@ -22,7 +24,8 @@
             android:paddingBottom="20dp"
             android:paddingLeft="20dp"
             android:textSize="20sp"
-            android:fontFamily="sans-serif-light" />
+            android:fontFamily="sans-serif-light"
+            />
 
         <EditText
             android:id="@+id/userid"
@@ -35,7 +38,8 @@
             android:padding="10dp"
             android:inputType="textEmailAddress|textNoSuggestions"
             android:singleLine="true"
-            android:hint="create your user id" />
+            android:hint="create your user id"
+            />
 
         <TextView
             android:text="@string/passwd"
@@ -45,7 +49,8 @@
             android:paddingBottom="20dp"
             android:paddingLeft="20dp"
             android:textSize="20sp"
-            android:fontFamily="sans-serif-light" />
+            android:fontFamily="sans-serif-light"
+            />
 
         <EditText
             android:id="@+id/password"
@@ -59,7 +64,8 @@
             android:singleLine="true"
             android:password="true"
             android:padding="10dp"
-            android:inputType="textPassword|textNoSuggestions"/>
+            android:inputType="textPassword|textNoSuggestions"
+            />
 
         <TextView
             android:text="@string/confirm"
@@ -69,7 +75,8 @@
             android:paddingBottom="20dp"
             android:paddingLeft="20dp"
             android:textSize="20sp"
-            android:fontFamily="sans-serif-light" />
+            android:fontFamily="sans-serif-light"
+            />
 
         <EditText
             android:id="@+id/confirm_pw"
@@ -83,7 +90,8 @@
             android:padding="10dp"
             android:singleLine="true"
             android:password="true"
-            android:inputType="textPassword|textNoSuggestions"/>
+            android:inputType="textPassword|textNoSuggestions"
+            />
 
 
 

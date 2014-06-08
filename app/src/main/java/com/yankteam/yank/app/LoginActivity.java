@@ -10,7 +10,9 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.LinearLayout;
 import android.widget.ProgressBar;
+import android.widget.Toast;
 
 import org.apache.http.HttpResponse;
 import org.apache.http.client.methods.HttpPost;
@@ -49,6 +51,11 @@ public class LoginActivity extends ActionBarActivity {
         mLoginButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                ProgressBar loginIndicator = (ProgressBar) findViewById(R.id.login_indicator);
+                LinearLayout loginBody     = (LinearLayout) findViewById(R.id.login_container);
+                loginIndicator.setVisibility(View.VISIBLE);
+                loginBody.setVisibility(View.GONE);
+
                 triggerLogin();
             }
         });
@@ -86,12 +93,6 @@ public class LoginActivity extends ActionBarActivity {
         super.onResume();
         SharedPreferences sPrefs = this.getPreferences(Context.MODE_PRIVATE);
         String apik = sPrefs.getString("YANK_APIK", null);
-
-        // if there's an APIK, try it
-        /* TODO: flesh this out
-        if (apik != null) {
-        }
-        */
     }
 
     /* switch activities */
@@ -196,8 +197,14 @@ public class LoginActivity extends ActionBarActivity {
                     //send user through to the lobby
                     gotoLobby();
                 } else {
-                    ProgressBar prog = (ProgressBar) findViewById(R.id.login_indicator);
-                    prog.setVisibility(View.GONE);
+                    ProgressBar loginIndicator = (ProgressBar) findViewById(R.id.login_indicator);
+                    LinearLayout loginBody     = (LinearLayout) findViewById(R.id.login_container);
+
+                    loginIndicator.setVisibility(View.GONE);
+                    loginBody.setVisibility(View.VISIBLE);
+
+                    Toast.makeText(getApplicationContext(), "Login failed. Try again.",
+                            Toast.LENGTH_SHORT).show();
                 }
             } catch (JSONException e) {
                 //ask user to retry login
