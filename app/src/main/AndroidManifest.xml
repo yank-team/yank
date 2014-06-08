@@ -63,6 +63,10 @@
             android:name="com.yankteam.yank.app.SignupActivity"
             android:label="@string/title_activity_signup" >
         </activity>
+        <activity
+            android:name=".EntityProfileActivity"
+            android:label="entityprofile">
+            </activity>
     </application>
 
 </manifest>

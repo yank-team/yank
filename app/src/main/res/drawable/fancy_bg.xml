@@ -1,17 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<!--
-Not sure why it's called "skulls", since there aren't
-any in the picture.
- -->
-<!--
-<bitmap
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    android:src="@drawable/skulls"
-    android:tileMode="repeat"
-    />
--->
-
 <shape
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:shape="rectangle"

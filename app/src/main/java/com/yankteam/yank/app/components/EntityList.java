@@ -1,6 +1,7 @@
 package com.yankteam.yank.app.components;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -11,6 +12,7 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.yankteam.yank.app.EntityProfileActivity;
 import com.yankteam.yank.app.R;
 import com.yankteam.yank.app.components.Entity;
 
@@ -65,16 +67,11 @@ public class EntityList extends ArrayAdapter<Entity> {
         holder.name.setText(entities.get(pos).getName());
 
         // set up a click listener
-        rowView.setOnLongClickListener(new View.OnLongClickListener() {
+        rowView.setOnClickListener(new View.OnClickListener() {
             @Override
-            public boolean onLongClick(View v) {
-                // toggle button visibility
-                if (holder.ctxButtons.getVisibility() == View.GONE){
-                    holder.ctxButtons.setVisibility(View.VISIBLE);
-                } else {
-                    holder.ctxButtons.setVisibility(View.GONE);
-                }
-                return true;
+            public void onClick(View v) {
+                Intent intent = new Intent(context, EntityProfileActivity.class);
+                context.startActivity(intent);
             }
         });
         return rowView;
