@@ -42,39 +42,5 @@
             android:paddingBottom="10dp"
             android:fontFamily="sans-serif-light"
             />
-        <!-- contextual buttons-->
-        <LinearLayout
-            android:id="@+id/entity_list_buttons"
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:visibility="gone"
-            >
-            <ImageButton
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:src="@drawable/ic_action_favorite"
-                android:background="@drawable/btn_success"
-                android:layout_marginBottom="5dp"
-                android:padding="5dp"
-                android:layout_weight="1"
-                />
-            <ImageButton
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:src="@drawable/ic_action_map"
-                android:background="@drawable/btn_success"
-                android:padding="5dp"
-                android:layout_weight="1"
-                />
-            <ImageButton
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:src="@drawable/ic_action_chat"
-                android:background="@drawable/btn_success"
-                android:padding="5dp"
-                android:layout_weight="1"
-                />
-        </LinearLayout>
     </LinearLayout>
 </LinearLayout>

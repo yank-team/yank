@@ -31,7 +31,6 @@ public class EntityList extends ArrayAdapter<Entity> {
         public ImageView avatar;
         public TextView  name;
         public TextView  desc;
-        public LinearLayout ctxButtons;
     }
 
     public EntityList(Activity context, List <Entity> entities) {
@@ -56,7 +55,6 @@ public class EntityList extends ArrayAdapter<Entity> {
             outgoingHolder.avatar     = (ImageView) rowView.findViewById(R.id.img_entity_avatar);
             outgoingHolder.name       = (TextView)  rowView.findViewById(R.id.str_entity_name);
             outgoingHolder.desc       = (TextView)  rowView.findViewById(R.id.str_entity_desc);
-            outgoingHolder.ctxButtons = (LinearLayout) rowView.findViewById(R.id.entity_list_buttons);
             rowView.setTag(outgoingHolder);
         }
 
@@ -74,6 +72,13 @@ public class EntityList extends ArrayAdapter<Entity> {
                 context.startActivity(intent);
             }
         });
+
         return rowView;
+    }
+
+    // entity activity goto
+    public void gotoEntityProfile() {
+        Intent intent = new Intent(context, EntityProfileActivity.class);
+        context.startActivity(intent);
     }
 }
