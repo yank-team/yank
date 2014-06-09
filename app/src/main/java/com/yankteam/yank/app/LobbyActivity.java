@@ -26,7 +26,7 @@ import java.util.List;
 import java.util.Vector;
 
 public class LobbyActivity extends ActionBarActivity
-        implements ActionBar.TabListener, LocationListener {
+        implements ActionBar.TabListener {
 
     // some constants
     public final static String LOG_TAG              = "LobbyActivity";
@@ -38,6 +38,29 @@ public class LobbyActivity extends ActionBarActivity
     private SectionsPagerAdapter mSectionsPagerAdapter;
     private ViewPager mViewPager;
     private Boolean locationSet;
+    Location oldLocation;
+    LocationListener locationListener = new LocationListener() {
+
+        @Override
+        public void onStatusChanged(String provider, int status, Bundle extras) {
+        }
+
+        @Override
+        public void onProviderEnabled(String provider) {
+        }
+
+        @Override
+        public void onProviderDisabled(String provider) {
+
+        }
+
+        @Override
+        public void onLocationChanged(Location location) {
+            Log.d(LoginActivity.LOG_TAG, "location changed" + location.toString());
+            // Do work with new location. Implementation of this method will be covered later.
+            doWorkWithNewLocation(location);
+        }
+    };
 
     // Location manager
     // Double my_lat, my_lng;
@@ -57,11 +80,12 @@ public class LobbyActivity extends ActionBarActivity
         // Retrieve location manager
         locationSet  = false;
         Criteria criteria = new Criteria();
-        locationMgmt = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
+        criteria.setAccuracy(Criteria.ACCURACY_FINE);
+        locationMgmt = (LocationManager) this.getSystemService(Context.LOCATION_SERVICE);
         String provider = locationMgmt.getBestProvider(criteria, true);
-        locationMgmt.requestLocationUpdates(provider, 1, 1, this);
-        Location location = locationMgmt.getLastKnownLocation(provider);
-        storeLocation(location);
+        oldLocation = locationMgmt.getLastKnownLocation(provider);
+        storeLocation(oldLocation);
+        locationMgmt.requestLocationUpdates(provider, 100, 0, locationListener);
 
         // set up the action bar
         final ActionBar actionBar = getSupportActionBar();
@@ -135,6 +159,7 @@ public class LobbyActivity extends ActionBarActivity
     }
 
 
+
     @Override
     public void onTabSelected(ActionBar.Tab tab, FragmentTransaction ft) {
         mViewPager.setCurrentItem(tab.getPosition());
@@ -147,46 +172,70 @@ public class LobbyActivity extends ActionBarActivity
     @Override
     public void onTabReselected(ActionBar.Tab tab, FragmentTransaction ft) {}
 
-    @Override
-    public void onLocationChanged(Location location) {
-        // set location if this is the first time
-        Log.d(LobbyActivity.LOG_TAG, "location is " + location.toString());
-        if (!locationSet) {
-            appInfo.my_lat = location.getLatitude();
-            appInfo.my_lng = location.getLongitude();
-            locationSet = true;
-
+    void doWorkWithNewLocation(Location location) {
+        if(isBetterLocation(oldLocation, location)) {
+            // If location is better, do some user preview.
+            storeLocation(location);
         }
-        //updateNearbyYanks();
+
+        storeLocation(oldLocation);
     }
 
-    public void storeLocation(Location location){
+    /**
+     * Time difference threshold set for one minute.
+     */
+    static final int TIME_DIFFERENCE_THRESHOLD = 1 * 60 * 1000;
 
-        Log.d(LobbyActivity.LOG_TAG, "location is " + location.toString());
-        if(location != null) {
+    /**
+     * Decide if new location is better than older by following some basic criteria.
+     * This algorithm can be as simple or complicated as your needs dictate it.
+     * Try experimenting and get your best location strategy algorithm.
+     *
+     * @param oldLocation Old location used for comparison.
+     * @param newLocation Newly acquired location compared to old one.
+     * @return If new location is more accurate and suits your criteria more than the old one.
+     */
+    boolean isBetterLocation(Location oldLocation, Location newLocation) {
+        // If there is no old location, of course the new location is better.
+        if(oldLocation == null) {
+            return true;
+        }
+
+        // Check if new location is newer in time.
+        boolean isNewer = newLocation.getTime() > oldLocation.getTime();
+
+        // Check if new location more accurate. Accuracy is radius in meters, so less is better.
+        boolean isMoreAccurate = newLocation.getAccuracy() < oldLocation.getAccuracy();
+        if(isMoreAccurate && isNewer) {
+            // More accurate and newer is always better.
+            return true;
+        } else if(isMoreAccurate && !isNewer) {
+            // More accurate but not newer can lead to bad fix because of user movement.
+            // Let us set a threshold for the maximum tolerance of time difference.
+            long timeDifference = newLocation.getTime() - oldLocation.getTime();
+
+            // If time difference is not greater then allowed threshold we accept it.
+            if(timeDifference > -TIME_DIFFERENCE_THRESHOLD) {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+
+    public void storeLocation(Location location) {
+
+        Log.d(LobbyActivity.LOG_TAG, "storing location " + location.toString());
+        if (location != null) {
             appInfo.my_lat = location.getLatitude();
             appInfo.my_lng = location.getLongitude();
-          //  updateNearbyYanks();
-        }
-        else
-        {
+            //  updateNearbyYanks();
+        } else {
             appInfo.my_lat = 0.0;
             appInfo.my_lng = 0.0;
             Log.d(LobbyActivity.LOG_TAG, "location is shitting itself");
         }
-    }
-
-    @Override
-    public void onStatusChanged(String provider, int status, Bundle extras) {
-        Log.d(LOG_TAG, provider + " " + status);
-    }
-
-    @Override
-    public void onProviderEnabled(String provider) {
-    }
-
-    @Override
-    public void onProviderDisabled(String provider) {
     }
 
     private void updateNearbyYanks(){

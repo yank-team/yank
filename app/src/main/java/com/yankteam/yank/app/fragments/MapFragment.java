@@ -186,7 +186,7 @@ public class MapFragment extends Fragment implements GooglePlayServicesClient.Co
     private void recenterCamera(){
         CameraPosition cPos = new CameraPosition.Builder()
                 .target(new LatLng(mCurrentLocation.getLatitude(),
-                        mCurrentLocation.getLongitude())).zoom(20).build();
+                        mCurrentLocation.getLongitude())).zoom(18).build();
         mMap.moveCamera(CameraUpdateFactory.newCameraPosition(cPos));
     }
 
