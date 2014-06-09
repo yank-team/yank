@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="#f0f0f0"
+    android:padding="10dp"
+    >
+    <!-- Item title -->
+    <TextView
+        android:id="@+id/str_note_username"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:padding="5dp"
+        android:textSize="20sp"
+        android:fontFamily="sans-serif-light"
+        />
+
+    <TextView
+        android:id="@+id/str_note_content"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:padding="5dp"
+        android:paddingLeft="50dp"
+        android:textSize="12sp"
+        android:fontFamily="sans-serif-light"
+        />
+</LinearLayout>
