@@ -236,7 +236,7 @@ public class CreationActivity extends ActionBarActivity {
         protected String doInBackground(String... args) {
             DefaultHttpClient httpClient = new DefaultHttpClient();
             HttpPost postReq = new HttpPost(getString(R.string.jheron_api) + "/entity/compound/");
-            HttpResponse response = null;
+            HttpResponse response;
 
             Log.d(CreationActivity.LOG_TAG, "appInfo: " + appInfo.my_lng + ":" + appInfo.my_lng);
             // Set up a JSON request body

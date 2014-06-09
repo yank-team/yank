@@ -36,11 +36,54 @@
         </LinearLayout>
 
     </RelativeLayout>
-
-    <ListView
-        android:id="@+id/list_entity_notes"
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="fill_parent"
+        android:orientation="vertical"
         >
+        <ListView
+            android:id="@+id/list_entity_notes"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="10"
+            >
         </ListView>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="2"
+            android:orientation="horizontal"
+            >
+
+            <RelativeLayout
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="3"
+                >
+
+                <EditText
+                    android:id="@+id/edit_note_content"
+                    android:layout_width="fill_parent"
+                    android:layout_height="fill_parent"
+                    android:hint="Note Body"
+                    android:layout_margin="5dp"
+                    />
+                </RelativeLayout>
+
+
+            <Button
+                android:id="@+id/btn_add_note"
+                android:text="Add Note"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:background="@drawable/btn_primary"
+                android:textColor="#ffffff"
+                />
+            </LinearLayout>
+
+
+    </LinearLayout>
+
 </LinearLayout>
