@@ -181,7 +181,13 @@ public class LoginActivity extends ActionBarActivity {
         protected void onPostExecute(String s) {
             super.onPostExecute(s);
 
-            Log.d(LOG_TOKEN, s);
+            if (s == null) {
+                Toast.makeText(getApplicationContext(),"login failed", Toast.LENGTH_SHORT)
+                    .show();
+                resetProgress();
+                return;
+            }
+
             try {
                 JSONObject mainObject    = new JSONObject(s);
                 Boolean success_response = mainObject.getBoolean("success");
@@ -197,12 +203,7 @@ public class LoginActivity extends ActionBarActivity {
                     //send user through to the lobby
                     gotoLobby();
                 } else {
-                    ProgressBar loginIndicator = (ProgressBar) findViewById(R.id.login_indicator);
-                    LinearLayout loginBody     = (LinearLayout) findViewById(R.id.login_container);
-
-                    loginIndicator.setVisibility(View.GONE);
-                    loginBody.setVisibility(View.VISIBLE);
-
+                    resetProgress();
                     Toast.makeText(getApplicationContext(), "Login failed. Try again.",
                             Toast.LENGTH_SHORT).show();
                 }
@@ -211,6 +212,13 @@ public class LoginActivity extends ActionBarActivity {
                 e.printStackTrace();
             }
         }
+    }
+
+    private void resetProgress() {
+        ProgressBar loginIndicator = (ProgressBar) findViewById(R.id.login_indicator);
+        LinearLayout loginBody     = (LinearLayout) findViewById(R.id.login_container);
+        loginIndicator.setVisibility(View.GONE);
+        loginBody.setVisibility(View.VISIBLE);
     }
 
 }

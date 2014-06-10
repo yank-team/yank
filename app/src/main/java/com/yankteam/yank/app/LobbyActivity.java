@@ -226,7 +226,6 @@ public class LobbyActivity extends ActionBarActivity
 
     public void storeLocation(Location location) {
 
-        Log.d(LobbyActivity.LOG_TAG, "storing location " + location.toString());
         if (location != null) {
             appInfo.my_lat = location.getLatitude();
             appInfo.my_lng = location.getLongitude();
